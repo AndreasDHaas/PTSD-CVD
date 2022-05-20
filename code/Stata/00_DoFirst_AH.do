@@ -4,18 +4,19 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 * GitHub repository path 
-	global repo "C:/Repositories/MD-CVD-D"
+	global repo "C:/Repositories/PTSD-CVD"
 	
 * Ado files path 
 	sysdir set PERSONAL "C:/Repositories/ado"
 
 * Data file path 
-	global data "C:/Data/IeDEA/MD-CVD-D" 
+	global data "C:/Data/IeDEA/PTSD-CVD" 
 		
 * Database version 
-	global v "v1"   
+	global v "v2.2"   
 	
 * Generate data folder & sub-folders
+	capture mkdir "$data"
 	capture mkdir "$data/$v"
 	
 * Generate data sub-folders & define macros with file paths 
