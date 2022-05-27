@@ -4,13 +4,16 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 * GitHub repository path 
-	global repo "C:/Repositories/PTSD-CVD"
+	global repo "C:/Repository/PTSD-CVD"
+	
+* Do files path 
+	global do "$repo/code/Stata/"
 	
 * Ado files path 
-	sysdir set PERSONAL "C:/Repositories/ado"
+	sysdir set PERSONAL "C:/Repository/Andreas-ado"
 
 * Data file path 
-	global data "C:/Data/IeDEA/PTSD-CVD" 
+	global data "C:/data/AfA_c" 
 		
 * Database version 
 	global v "v2.2"   
@@ -48,3 +51,10 @@
 	di $cymd
 	global cdate = date("$S_DATE" , "DMY")
 	di $cdate
+
+	/* Install required packages 
+		ssc install gtools 
+		ssc install mmerge
+		ssc install ftools 
+		net install cleanplots, from("https://tdmize.github.io/data/cleanplots")
+		net install dm79, from("http://www.stata.com/stb/stb56")
