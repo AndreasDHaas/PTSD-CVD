@@ -12,7 +12,7 @@
 	* Excluded: 
 		
 		* Unknown sex: N=10,004
-			drop if sex ==3 // unknown sex: 
+			drop if sex ==3 // unknown sex: 0.6
 			di %3.1fc 10004/1549123*100
 			
 		* Calculate age at end of follow-up 
@@ -23,11 +23,11 @@
 			lab val age_end_cat age_end_cat 
 			
 		* Unknown age: N=9,148
-			drop if age_end ==. // 
+			drop if age_end ==. // unknown age: 0.6
 			di %3.1fc 9148/1549123*100
 			assert inrange(age_end, 0, 100)
 			
-		* Age below 25 at end of follow-up: N=377,981
+		* Age below 18 at end of follow-up: N=440,795
 			drop if age_end <18 // 
 			di %3.1fc 440795/1549123*100
 			count 
@@ -42,14 +42,14 @@
 			
 				
 		* Excluded total 
-			di 10004 + 9148 + 440795 + 70064
-			di %3.1fc 530011/1549123*100
+			di 10004 + 9148 + 440795
+			di %3.1fc 459947/1549123*100
 			
-	* Included: N=1,019,794
+	* Included: N=1,089,176
 		assertunique patient
 		
 	* Excluded + included = total 
-		di 530011 + 1019112
+		di 459947 + 1089176
 		
 	* Compress
 		compress
@@ -57,11 +57,11 @@
 *** Censor deaths after end of insurance coverage
 	
 	* Confirm Ns 
-		tab death_y // total deaths: 63,290
+		tab death_y // total deaths: 64,087
 		assert death_d !=. if death_y ==1 // no missing death_d
-		count if death_y ==1 & death_d > end // death after end of insurance coverage: 27,001
-		count if death_y ==1 & death_d <= end // death while insured: 36,289
-		di 36289 + 27001 // during & after insurance coverage = total 
+		count if death_y ==1 & death_d > end // death after end of insurance coverage: 26,814
+		count if death_y ==1 & death_d <= end // death while insured: 37,273
+		di 37273 + 26814 // during & after insurance coverage = total 
 	
 	* Censor deaths after end of insurance coverage 
 		gen censored = 1 if death_y ==1 & death_d > end
@@ -80,7 +80,7 @@
 			replace cod2 = . if censored ==1
 			drop censored 
 			
-	* Left-trucate data at age 
+	* Left-truncate data at age 
 	
 		* Calculate age at start of follow-up 
 			gen age_start = floor((start-birth_d)/365.25), before(age_end)
@@ -134,7 +134,7 @@
 		
 	* Confirm N 
 		count 
-		assert `r(N)' == 1019112
+		assert `r(N)' == 1089176
 		
 	* Compress
 		compress
