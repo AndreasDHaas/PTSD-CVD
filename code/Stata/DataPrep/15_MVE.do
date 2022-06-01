@@ -25,7 +25,7 @@
 										inlist(hosp_code , "33519", "33521", "33522", "33523", "33530", "33533", "33534", "33535", "33536") | /// 
 										inlist(hosp_code , "33572", "92920", "92921", "92924", "92929", "92933", "92934", "92937", "92938") | /// 
 										inlist(hosp_code , "92941", "92944", "92973", "92980", "92981", "92982", "92984")), ///
-										minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(01/07/2020)') // revascularization
+										minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(01/07/2020)') censor(end)  // revascularization
 												
 	* Major vascular event: 49,403 (4.6%) 
 		egen mve1_y = rowmax(ua1_y stemi1_y nstemi1_y umi1_y bs1_y is1_y us1_y revasc1_y) 
