@@ -6,6 +6,9 @@
 * GitHub repository path 
 	global repo "C:/Repositories/PTSD-CVD"
 	
+* Do files path 
+	global do "$repo/code/Stata/"
+	
 * Ado files path 
 	sysdir set PERSONAL "C:/Repositories/ado"
 
