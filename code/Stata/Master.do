@@ -13,7 +13,6 @@
 		do "$do/DataPrep/13_Hypertension.do"		
 		do "$do/DataPrep/14_MentalDisorders.do"		
 		do "$do/DataPrep/15_MVE.do"	
-		do "$do/DataPrep/16_TB.do"	
 			
 	* Save dataset in wide format: $clean/analyseWide.dta 
 		save "$clean/analyseWide", replace 
