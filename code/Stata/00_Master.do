@@ -1,10 +1,7 @@
 *** Project setup 
 
 	* Initials of analyst 
-		global ID = "CM"
-	
-	* Define global macros with file paths 
-		do "$do/00_DoFirst_$ID"		
+		global ID = "CM"	
 	
 *** Descriptive analysis 
 

@@ -4,7 +4,7 @@
 	use "$clean/analyseWide", clear
 		
 * List of variables to be split at event dates 
-	global tvc "mve2 dm1 dl1 hiv1 ht1 ptsd1 dep1 su1 psy1 anx1"
+	global tvc "ptsd1 mve2 dm1 dl1 hiv1 ht1 dep1 su1 psy1 anx1"
 		
 * Checks 
 		
@@ -254,4 +254,4 @@
 		
 	* Save 
 		save "$clean/analyseSurv", replace
-		use "$clean/analyseSurv", clea
+	
