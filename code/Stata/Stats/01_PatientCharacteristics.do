@@ -47,7 +47,7 @@
 		capture putdocx clear
 		putdocx begin, font("Arial", 8)
 		putdocx paragraph, spacing(after, 0)
-		putdocx text ("Table 1: Characteristics of beneficiaries with and without depression diagnoses at the end of follow-up"), font("Arial", 9, black) bold 
+		putdocx text ("Table 1: Characteristics of beneficiaries with and without PTSD diagnosis at the end of follow-up"), font("Arial", 9, black) bold 
 		putdocx table tbl1 = data(*), border(all, nil) border(top, single) border(bottom, single) layout(autofitcontent) 
 		putdocx table tbl1(., .), halign(right)  font("Arial", 8)
 		putdocx table tbl1(., 1), halign(left)  
