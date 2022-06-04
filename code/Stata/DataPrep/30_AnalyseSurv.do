@@ -4,9 +4,9 @@
 	use "$clean/analyseWide", clear
 		
 * List of variables to be split at event dates 
-	*global tvc "mve2 dm1 dl1 hiv1 ht1 mhd1 org1 su1 psy1 mood1 anx1 omd1 alc1 drug1 bp1 dep1 omood1 gad1 ptsd1 ad1 oad1"
+	// global tvc "mve2 dm1 dl1 hiv1 ht1 mhd1 org1 su1 psy1 mood1 anx1 omd1 alc1 drug1 bp1 dep1 omood1 gad1 ptsd1 ad1 oad1"
 	global tvc "mve2 dm1 dl1 hiv1 ht1 mhd1 org1 su1 psy1 mood1 anx1 omd1 ptsd1 othanx1"
-		
+
 * Checks 
 		
 	* Start, end & patient ID 
@@ -90,10 +90,10 @@
 	foreach var in $tvc {
 			
 		* Example cases:  
-			listif patient start18 end `var'_d `var'_y  if `var'_d == start18, id(patient) sort(patient start18) seed(1) n(1) global(eos) // events on start18 
-			listif patient start18 end `var'_d `var'_y  if `var'_d == end, id(patient) sort(patient start18) seed(1) n(1) global(eoe) // events on end 
-			listif patient start18 end `var'_d `var'_y  if `var'_d > start & `var'_d < end & `var'_y ==1, id(patient) sort(patient start18) seed(1) n(1) global(ebse) // event between start and end 
-			listif patient start18 end `var'_d `var'_y  if `var'_y ==0, id(patient) sort(patient start18) seed(1) n(1) global(ne) // no event 
+			listif patient start18 end `var'_d `var'_y  if `var'_d == start18, id(patient) sort(patient start18) seed(1) n(1) global(eos) nolab // events on start18 
+			listif patient start18 end `var'_d `var'_y  if `var'_d == end, id(patient) sort(patient start18) seed(1) n(1) global(eoe) nolab // events on end 
+			listif patient start18 end `var'_d `var'_y  if `var'_d > start & `var'_d < end & `var'_y ==1, id(patient) sort(patient start18) seed(1) n(1) global(ebse) nolab // event between start and end 
+			listif patient start18 end `var'_d `var'_y  if `var'_y ==0, id(patient) sort(patient start18) seed(1) n(1) global(ne) nolab // no event 
 			
 		* Split at PTSD diagnosis
 				splittvc patient start18 end `var'_d `var'_y, listid($eos, $eoe, $ebse, $ne) nolab 	
@@ -187,6 +187,16 @@
 		di %16.2fc $mve_fup1 // 140,267.53
 		assert float($mve_fup) == float($mve_fup1)	
 		
+* Generate time-varing variables for moderate certainty 
+	foreach var in ptsd othanx org su psy mood omd { // dm dl hiv ht
+		gen byte `var'2_y_tvc = `var'1_y_tvc  
+		replace `var'2_y_tvc = 0 if `var'2_d ==.
+		*listif start18 end `var'1_d `var'1_y `var'1_n `var'1_y_tvc `var'2_d `var'2_y `var'2_y_tvc if `var'1_d !=. & `var'2_d ==., sepby(patient) id(patient) sort(patient start18) n(1) nolab seed(1)
+		*listif start18 end `var'1_d `var'1_y `var'1_n `var'1_y_tvc `var'2_d `var'2_y `var'2_y_tvc if `var'1_d !=. & `var'2_d !=., sepby(patient) id(patient) sort(patient start18) n(1) nolab seed(1)
+		assert `var'2_y_tvc == `var'1_y_tvc if `var'2_d !=.
+		assert `var'2_y_tvc == 0 if `var'2_d ==.
+	}
+		
 * Generate time-varying variable for death 
 	listif patient start18 end death_d death_y if death_y ==1, id(patient) sort(patient start18) seed(5) sepby(patient) nolab n(1) global(died)
 	listif patient start18 end death_d death_y if death_y ==0, id(patient) sort(patient start18) seed(1) sepby(patient) nolab n(1) global(alive)
@@ -197,7 +207,26 @@
 	assert `d'==`r(N)'
 	list patient start18 end death_d death_y death_y_tvc if inlist(patient, $died), sepby(patient)
 	list patient start18 end death_d death_y death_y_tvc if inlist(patient, $alive), sepby(patient)
-		
+	assert death_y_tvc ==0 if death_d ==.
+	assert death_y_tvc ==1 if end == death_d
+	
+* Update time-varing variable for mve 
+	list patient start18 end mve2_d mve2_y mve2_y_tvc if patient =="B001727470", nolab
+	replace mve2_y_tvc = 1 if end == mve2_d & mve2_y ==1
+	listif patient start18 end mve2_d mve2_y mve2_y_tvc if mve2_y ==1, id(patient) sort(patient start18) nolab seed(1) n(20) sepby(patient mve2_y_tvc)
+	assert mve2_y_tvc ==1 if end == mve2_d
+	bysort patient mve2_y_tvc (start18): gen n = _n
+	listif patient start18 end mve2_d mve2_y mve2_y_tvc n if mve2_y ==1, id(patient) sort(patient start18) nolab seed(1) n(2) sepby(patient mve2_y_tvc)
+	listif patient start18 end mve2_d mve2_y mve2_y_tvc n if mve2_y ==1, id(patient) sort(patient start18) nolab seed(1) n(2) sepby(patient mve2_y_tvc)
+	assert end == mve2_d if n ==1 & mve2_y_tvc ==1 
+	count if end != mve2_d & n ==1 & mve2_y ==1 & mve2_y_tvc ==1
+	* events on start18 <- set _tvc to 0
+	listif patient start18 end mve2_d mve2_y mve2_y_tvc n if end != mve2_d & n ==1 & mve2_y ==1 & mve2_y_tvc ==1, id(patient) sort(patient start18) nolab seed(1) n(2) sepby(patient mve2_y_tvc)
+	replace mve2_y_tvc = 0 if end != mve2_d & n ==1 & mve2_y ==1 & mve2_y_tvc ==1
+	assert end == mve2_d if n ==1 & mve2_y_tvc ==1 
+	assert mve2_y_tvc ==1 if end == mve2_d
+	drop n
+	
 * Final cleaning 
 	
 	* Clean 
@@ -260,22 +289,10 @@
 		lab define othanx1_y_tvc 1 "Other anxiety disorders", replace 
 		lab val othanx1_y_tvc othanx1_y_tvc	
 		
-		*lab define gad1_y_tvc 1 "Generalized anxiety disorder", replace 
-		*lab val gad1_y_tvc gad1_y_tvc	
-		*lab define ad1_y_tvc 1 "Mixed anxiety and depression", replace 
-		*lab val ad1_y_tvc ad1_y_tvc	
-		*lab define oad1_y_tvc 1 "Other anxiety disorder", replace 
-		*lab val oad1_y_tvc oad1_y_tvc	
-		*lab define alc1_y_tvc 1 "Alcohol use disorder", replace 
-		*lab val alc1_y_tvc alc1_y_tvc	
-		*lab define drug1_y_tvc 1 "Drug use disorder", replace 
-		*lab val drug1_y_tvc drug1_y_tvc	
-		*lab define bp1_y_tvc 1 "Bipolar disorder", replace 
-		*lab val bp1_y_tvc bp1_y_tvc	
-		*lab define omood1_y_tvc 1 "Other mood disorder", replace 
-		*lab val omood1_y_tvc omood1_y_tvc			
-		*lab define omd1_y_tvc 1 "Other mental disorder", replace 
-		*lab val omd1_y_tvc omd1_y_tvc */
+	* Labels for variables with moderate certainty 
+		foreach var in ptsd othanx org su psy mood omd { // dm dl hiv ht
+			lab val `var'2_y_tvc `var'1_y_tvc
+		}
 		
 	* Compress 
 		compress
