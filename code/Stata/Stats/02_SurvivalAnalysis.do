@@ -3,14 +3,14 @@
 	* Table 2: Unadjusted and adjusted hazards ratios for factors associated with major cardiovascular events  
 
 		* AnalyseSurv table 
-			use patient start18 end sex popgrp age year ptsd1_y_tvc dep1_y_tvc mve2_y_tvc cod2 death_y_tvc ///
-				dm1_y_tvc dl1_y_tvc hiv1_y_tvc ht1_y_tvc su1_y_tvc psy1_y_tvc anx1_y_tvc using "$clean/analyseSurv", clear	
+			use patient start18 end sex popgrp age year ptsd1_y_tvc othanx1_y_tvc org1_y_tvc su1_y_tvc psy1_y_tvc mood1_y_tvc omd1_y_tvc mve2_y_tvc cod2 death_y_tvc ///
+				dm1_y_tvc dl1_y_tvc hiv1_y_tvc ht1_y_tvc using "$clean/analyseSurv", clear	
 				
 		* Sample
 			*sample 5
 			
 		* Stset 
-			stset end, failure(mve2_y_tvc) origin(time start18) id(patient) scale(365.25)
+			stset end, failure(mve2_y_tvc) origin(time start18) id(patient) scale(365.25)  exit(time mdy(03,15,2020))     
 			*listif patient start18 end death_y_tvc _t0 _t _d _st if mve2_y_tvc !=., sepby(patient) id(patient) sort(patient start18) n(5)
 					
 		* Labels 
@@ -22,48 +22,62 @@
 		* Univariable analysis 
 			stcox i.ptsd1_y_tvc 
 			regtable ptsd1_y_tvc, heading number(0) save("$temp/hrMVE") varsuffix(0) estlab("HR (95% CI)") keep(var est label id number) dropcoef(0b.ptsd1_y_tvc)	
-			stcox i.dep1_y_tvc
-			regtable dep1_y_tvc, number(1) append("$temp/hrMVE") varsuffix(0) keep(var est label id number) dropcoef(0b.dep1_y_tvc)
-			stcox i.psy1_y_tvc
-			regtable psy1_y_tvc, number(2) append("$temp/hrMVE") varsuffix(0) keep(var est label id number) dropcoef(0b.psy1_y_tvc)			
+			stcox i.othanx1_y_tvc
+			regtable othanx1_y_tvc, number(1) append("$temp/hrMVE") varsuffix(0) keep(var est label id number) dropcoef(0b.othanx1_y_tvc)		
+			stcox i.org1_y_tvc
+			regtable org1_y_tvc, number(2) append("$temp/hrMVE") varsuffix(0) keep(var est label id number) dropcoef(0b.org1_y_tvc)		
 			stcox i.su1_y_tvc
-			regtable su1_y_tvc, number(3) append("$temp/hrMVE") varsuffix(0) keep(var est label id number) dropcoef(0b.su1_y_tvc)				
+			regtable su1_y_tvc, number(3) append("$temp/hrMVE") varsuffix(0) keep(var est label id number) dropcoef(0b.su1_y_tvc)	
+			stcox i.psy1_y_tvc
+			regtable psy1_y_tvc, number(4) append("$temp/hrMVE") varsuffix(0) keep(var est label id number) dropcoef(0b.psy1_y_tvc)				
+			stcox i.mood1_y_tvc
+			regtable mood1_y_tvc, number(5) append("$temp/hrMVE") varsuffix(0) keep(var est label id number) dropcoef(0b.mood1_y_tvc)			
+			stcox i.omd1_y_tvc
+			regtable omd1_y_tvc, number(6) append("$temp/hrMVE") varsuffix(0) keep(var est label id number) dropcoef(0b.omd1_y_tvc)					
 			stcox i.dm1_y_tvc
-			regtable dm1_y_tvc, number(4) append("$temp/hrMVE") varsuffix(0) keep(var est label id number) dropcoef(0b.dm1_y_tvc) heading				
+			regtable dm1_y_tvc, number(7) append("$temp/hrMVE") varsuffix(0) keep(var est label id number) dropcoef(0b.dm1_y_tvc) heading				
 			stcox i.dl1_y_tvc
-			regtable dl1_y_tvc, number(5) append("$temp/hrMVE") varsuffix(0) keep(var est label id number) dropcoef(0b.dl1_y_tvc)			
+			regtable dl1_y_tvc, number(8) append("$temp/hrMVE") varsuffix(0) keep(var est label id number) dropcoef(0b.dl1_y_tvc)			
 			stcox i.ht1_y_tvc
-			regtable ht1_y_tvc, number(6) append("$temp/hrMVE") varsuffix(0) keep(var est label id number) dropcoef(0b.ht1_y_tvc)	
+			regtable ht1_y_tvc, number(9) append("$temp/hrMVE") varsuffix(0) keep(var est label id number) dropcoef(0b.ht1_y_tvc)	
 			stcox i.hiv1_y_tvc 
-			regtable hiv1_y_tvc, number(7) append("$temp/hrMVE") varsuffix(0) keep(var est label id number) dropcoef(0b.hiv1_y_tvc ) indent(0)
+			regtable hiv1_y_tvc, number(10) append("$temp/hrMVE") varsuffix(0) keep(var est label id number) dropcoef(0b.hiv1_y_tvc ) indent(0)
 			stcox ib3.age
-			regtable age, number(8) append("$temp/hrMVE") varsuffix(0) keep(var est label id number) heading		
+			regtable age, number(11) append("$temp/hrMVE") varsuffix(0) keep(var est label id number) heading		
 			stcox ib2.sex
-			regtable sex, number(9) append("$temp/hrMVE") varsuffix(0) keep(var est label id number) heading		
+			regtable sex, number(12) append("$temp/hrMVE") varsuffix(0) keep(var est label id number) heading		
 			stcox i.popgrp
-			regtable popgrp, number(10) append("$temp/hrMVE") varsuffix(0) keep(var est label id number) heading		
+			regtable popgrp, number(13) append("$temp/hrMVE") varsuffix(0) keep(var est label id number) heading		
 			stcox i.year
-			regtable year, number(11) append("$temp/hrMVE") varsuffix(0) keep(var est label id number) heading		
+			regtable year, number(14) append("$temp/hrMVE") varsuffix(0) keep(var est label id number) heading		
 			
 		* Model 1: adjusted for PTSD, sociodemographic characteristics and year 
 			stcox i.ptsd1_y_tvc ib3.age ib2.sex i.year i.popgrp
 			regtable ptsd1_y_tvc age sex year popgrp, heading number(0) merge("$temp/hrMVE") varsuffix(1) estlab("aHR (95% CI)") keep(var est label) dropcoef(0b.ptsd1_y_tvc) sort(number0 id0)	
 			
 		* Model 2: adjusted for PTSD, sociodemographic characteristics, year and psychiatric comorbidity 
-			stcox i.ptsd1_y_tvc ib3.age ib2.sex i.year i.popgrp i.dep1_y_tvc i.psy1_y_tvc i.su1_y_tvc  
+			stcox i.ptsd1_y_tvc ib3.age ib2.sex i.year i.popgrp i.othanx1_y_tvc i.org1_y_tvc i.su1_y_tvc i.psy1_y_tvc i.mood1_y_tvc i.omd1_y_tvc  
 			regtable ptsd1_y_tvc age sex year popgrp, heading number(0) merge("$temp/hrMVE") varsuffix(2) estlab("aHR (95% CI)") keep(var est label) ///
-			dropcoef(0b.ptsd1_y_tvc 0b.dep1_y_tvc 0b.psy1_y_tvc 0b.su1_y_tvc h.dep1_y_tvc h.psy1_y_tvc h.su1_y_tvc) sort(number0 id0)				
+			dropcoef(0b.ptsd1_y_tvc 0b.othanx1_y_tvc 0b.org1_y_tvc 0b.su1_y_tvc 0b.psy1_y_tvc 0b.mood1_y_tvc 0b.omd1_y_tvc ///
+			h.othanx1_y_tvc h.org1_y_tvc h.su1_y_tvc h.psy1_y_tvc h.mood1_y_tvc h.omd1_y_tvc ) sort(number0 id0)		
+			
+		* Model 3: adjusted for PTSD, sociodemographic characteristics, year and CVD risk factors and HIV 
+			stcox i.ptsd1_y_tvc ib3.age ib2.sex i.year i.popgrp i.dm1_y_tvc i.dl1_y_tvc i.ht1_y_tvc i.hiv1_y_tvc  
+			regtable ptsd1_y_tvc age sex year popgrp, heading number(0) merge("$temp/hrMVE") varsuffix(3) estlab("aHR (95% CI)") keep(var est label) ///
+			dropcoef(0b.ptsd1_y_tvc 0b.dm1_y_tvc 0b.dl1_y_tvc 0b.ht1_y_tvc 0b.hiv1_y_tvc ///
+			h.dm1_y_tvc h.dl1_y_tvc h.ht1_y_tvc h.hiv1_y_tvc ) sort(number0 id0)		
 
-		* Model 3: adjusted for PTSD, sociodemographic characteristics, year, psychiatric comorbidity, and CVD risk factors and HIV
-			stcox i.ptsd1_y_tvc ib3.age ib2.sex i.year i.popgrp i.dep1_y_tvc i.psy1_y_tvc i.su1_y_tvc i.dm1_y_tvc i.dl1_y_tvc i.ht1_y_tvc i.hiv1_y_tvc 
-			regtable ptsd1_y_tvc age sex year popgrp dm1_y_tvc dl1_y_tvc ht1_y_tvc hiv1_y_tvc, heading number(0) merge("$temp/hrMVE") varsuffix(3) estlab("aHR (95% CI)") keep(var est label) ///
-			dropcoef(0b.ptsd1_y_tvc 0b.dep1_y_tvc 0b.psy1_y_tvc 0b.su1_y_tvc 0b.dm1_y_tvc 0b.dl1_y_tvc 0b.ht1_y_tvc 0b.hiv1_y_tvc h.ht1_y_tvc h.hiv1_y_tvc h.dl1_y_tvc h.dep1_y_tvc h.psy1_y_tvc h.su1_y_tvc ) sort(number0 id0)				
+		* Model 4: adjusted for PTSD, sociodemographic characteristics, year, psychiatric comorbidity, CVD risk factors and HIV 
+			stcox i.ptsd1_y_tvc ib3.age ib2.sex i.year i.popgrp i.othanx1_y_tvc i.org1_y_tvc i.su1_y_tvc i.psy1_y_tvc i.mood1_y_tvc i.omd1_y_tvc i.dm1_y_tvc i.dl1_y_tvc i.ht1_y_tvc i.hiv1_y_tvc  
+			regtable ptsd1_y_tvc age sex year popgrp, heading number(0) merge("$temp/hrMVE") varsuffix(4) estlab("aHR (95% CI)") keep(var est label) ///
+			dropcoef(0b.ptsd1_y_tvc 0b.othanx1_y_tvc 0b.org1_y_tvc 0b.su1_y_tvc 0b.psy1_y_tvc 0b.mood1_y_tvc 0b.omd1_y_tvc 0b.dm1_y_tvc 0b.dl1_y_tvc 0b.ht1_y_tvc 0b.hiv1_y_tvc ///
+			h.othanx1_y_tvc h.org1_y_tvc h.su1_y_tvc h.psy1_y_tvc h.mood1_y_tvc h.omd1_y_tvc h.dm1_y_tvc h.dl1_y_tvc h.ht1_y_tvc h.hiv1_y_tvc ) sort(number0 id0)				
 			
 		* Export table 
 			use label est* using "$temp/hrMVE", clear 
 			list, sep(`=_N')
 			capture putdocx clear
-			putdocx begin, font("Arial", 8) 
+			putdocx begin, font("Arial", 8) landscape
 			putdocx paragraph, spacing(after, 0) 
 			putdocx text ("Table 2: Unadjusted and adjusted hazard ratios for factors associated with major vascular events"), font("Arial", 9, black) bold
 			putdocx table tbl = data(*), border(all, nil) border(top, single) border(bottom, single) layout(autofitcontent)
@@ -73,7 +87,7 @@
 			putdocx save "$tables/Table 2.docx", replace		
 				
 
-	***Create dummies 
+	/***Create dummies 
 	
 		*Clinical monitoring
 		gen CM = 0
@@ -93,7 +107,7 @@
 			
 
 
-	* -stcox- to get stratum-specific KM curves */
+	* -stcox- to get stratum-specific KM curves *
 			
 			*dummy for regression
 			gen dummy=1

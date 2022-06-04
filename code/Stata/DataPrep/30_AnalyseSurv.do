@@ -4,7 +4,8 @@
 	use "$clean/analyseWide", clear
 		
 * List of variables to be split at event dates 
-	global tvc "ptsd1 mve2 dm1 dl1 hiv1 ht1 dep1 su1 psy1 anx1"
+	*global tvc "mve2 dm1 dl1 hiv1 ht1 mhd1 org1 su1 psy1 mood1 anx1 omd1 alc1 drug1 bp1 dep1 omood1 gad1 ptsd1 ad1 oad1"
+	global tvc "mve2 dm1 dl1 hiv1 ht1 mhd1 org1 su1 psy1 mood1 anx1 omd1 ptsd1 othanx1"
 		
 * Checks 
 		
@@ -25,7 +26,6 @@
 			assert `var'_y !=. 
 			assert `var'_y ==0 if `var'_d ==.
 			assert `var'_y ==1 if `var'_d !=.
-			di "`var': checks passed"
 		}
 		
 	* Total follow-up time, y
@@ -205,8 +205,10 @@
 				
 	* Order 
 		order patient start start18 end sex popgrp age year ptsd1_y_tvc ptsd1_d mve2_y_tvc mve2_d death_d cod2 death_y_tvc ///
-			dm1_y_tvc dm1_d dl1_y_tvc dl1_d hiv1_y_tvc hiv1_d ht1_y_tvc ht1_d dep1_y_tvc dep1_d su1_y_tvc su1_d psy1_y_tvc psy1_d anx1_y_tvc anx1_d age_start age_start_cat age_end age_end_cat
-			
+			dm1_y_tvc dm1_d dl1_y_tvc dl1_d hiv1_y_tvc hiv1_d ht1_y_tvc ht1_d ///
+			org1_y_tvc org1_d su1_y_tvc su1_d psy1_y_tvc psy1_d anx1_y_tvc mood1_y_tvc mood1_d anx1_y_tvc anx1_d omd1_y_tvc omd1_d ptsd1_y_tvc ptsd1_d othanx1_y_tvc othanx1_d ///
+			age_start age_start_cat age_end age_end_cat
+				
 	* Variable labels 
 		lab var start18 "Start of time at risk: time-varying, left-truncated at 18th birthday"
 		lab var end "End of time at risk: time-varying"
@@ -218,7 +220,7 @@
 		lab var su1_y_tvc "Time-varying binary variable for substance use disorder between start18 and end"	
 		lab var psy1_y_tvc "Time-varying binary variable for psychotic disorder between start18 and end"	
 		lab var anx1_y_tvc "Time-varying binary variable for anxiety disorder between start18 and end"	
-		lab var dep1_y_tvc "Time-varying binary variable for depression between start18 and end"	
+		lab var mood1_y_tvc "Time-varying binary variable for mood disorders between start18 and end"	
 		lab var ptsd1_y_tvc "Time-varying binary variable for PTSD between start18 and end"
 		lab var mve2_y_tvc "Time-varying binary variable for major vascular between start18 and end"			
 		lab var fup "Total follow-up time from start18 to end, y"
@@ -229,8 +231,16 @@
 	* Value lables
 		lab define ptsd1_y_tvc 1 "PTSD", replace 
 		lab val ptsd1_y_tvc ptsd1_y_tvc
-		lab define dep1_y_tvc 1 "Depression", replace 
-		lab val dep1_y_tvc dep1_y_tvc
+		lab define mood1_y_tvc 1 "Mood disorder", replace 
+		lab val mood1_y_tvc mood1_y_tvc
+		lab define org1_y_tvc 1 "Organic mental disorder", replace 
+		lab val org1_y_tvc org1_y_tvc
+		lab define omd1_y_tvc 1 "Other mental disorder", replace 
+		lab val omd1_y_tvc omd1_y_tvc
+		lab define othanx1_y_tvc 1 "Other anxiety disorder", replace 
+		lab val othanx1_y_tvc
+		lab define mhd1_y_tvc 1 "Mental disorder", replace 
+		lab val mhd1_y_tvc mhd1_y_tvc
 		lab define dm1_y_tvc 1 "Diabetes mellitus", replace 
 		lab val dm1_y_tvc dm1_y_tvc		
 		lab define dl1_y_tvc 1 "Dyslipidemia", replace 
@@ -247,8 +257,26 @@
 		lab val anx1_y_tvc anx1_y_tvc	
 		lab define mve2_y_tvc 1 "Major cardiovascular event", replace 
 		lab val mve2_y_tvc mve2_y_tvc	
+		lab define othanx1_y_tvc 1 "Other anxiety disorders", replace 
+		lab val othanx1_y_tvc othanx1_y_tvc	
 		
-
+		*lab define gad1_y_tvc 1 "Generalized anxiety disorder", replace 
+		*lab val gad1_y_tvc gad1_y_tvc	
+		*lab define ad1_y_tvc 1 "Mixed anxiety and depression", replace 
+		*lab val ad1_y_tvc ad1_y_tvc	
+		*lab define oad1_y_tvc 1 "Other anxiety disorder", replace 
+		*lab val oad1_y_tvc oad1_y_tvc	
+		*lab define alc1_y_tvc 1 "Alcohol use disorder", replace 
+		*lab val alc1_y_tvc alc1_y_tvc	
+		*lab define drug1_y_tvc 1 "Drug use disorder", replace 
+		*lab val drug1_y_tvc drug1_y_tvc	
+		*lab define bp1_y_tvc 1 "Bipolar disorder", replace 
+		*lab val bp1_y_tvc bp1_y_tvc	
+		*lab define omood1_y_tvc 1 "Other mood disorder", replace 
+		*lab val omood1_y_tvc omood1_y_tvc			
+		*lab define omd1_y_tvc 1 "Other mental disorder", replace 
+		*lab val omd1_y_tvc omd1_y_tvc */
+		
 	* Compress 
 		compress
 		
