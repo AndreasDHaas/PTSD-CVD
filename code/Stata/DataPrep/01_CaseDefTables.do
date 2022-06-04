@@ -1,4 +1,10 @@
 *** Prepare tables for case definitions 
+
+	* Append tables with mental health diagnoses 
+		use "$clean/ICD10_F", clear
+		append using "$clean/ICD10_R"
+		sort patient icd10_date
+		save "$clean/ICD10_F_R", replace
 	
 	* Append tables with diabetes diagnoses  
 		use "$clean/ICD10_E", clear
