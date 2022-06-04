@@ -108,11 +108,13 @@
 		lab var birth_d "Month and year of birth"
 		lab var age_start "Age at start18"
 		lab var age_end "Age at end"
+		lab var age_end_cat "Age at end, categorized"
 		lab var death_y "Binary indicator for death"
 		lab var death_d "Date of death"
 		lab var cod2 "Cause of death: natural/unnatural/unknown"
 		lab var age_start_cat "Age at baseline, y" 
 		lab var fup "Follow-up time, y" 
+		lab var linked "Binary indicator for linkage to NPR"
 		
 	* Value labels 
 		lab define popgrp 9 "Unknown", modify
