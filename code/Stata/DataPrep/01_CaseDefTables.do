@@ -6,11 +6,18 @@
 		sort patient icd10_date
 		save "$clean/ICD10_F_R", replace
 		
+	* Append tables with obesity diagnoses 
+		use "$clean/ICD10_E", clear
+		append using "$clean/ICD10_Z"
+		keep if regexm(icd10_code, "E66") | regexm(icd10_code, "Z71.3")
+		sort patient icd10_date
+		save "$clean/ICD10_E_Z", replace
+				
 	* Append tables with sleep disorder diagnoses 
 		use "$clean/ICD10_F", clear
 		append using "$clean/ICD10_G"
-		sort patient icd10_date
 		keep if regexm(icd10_code, "F51") | regexm(icd10_code, "G47")
+		sort patient icd10_date
 		save "$clean/ICD10_F_G", replace
 	
 	* Append tables with diabetes diagnoses  
