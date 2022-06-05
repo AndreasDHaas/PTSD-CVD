@@ -5,27 +5,27 @@
 	* Ischaemic heart diseases   
 				
 		* Unstable angina (I20)
-			fdiag ua0 using "$clean/ICD10_I" if icd10_code == "I20.0", minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(01/07/2020)') censor(end) 
+			fdiag ua0 using "$clean/ICD10_I" if icd10_code == "I20.0", minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end) 
 				
 		* Acute myocardial infarction (I21)  
-			fdiag stemi0 using "$clean/ICD10_I" if regexm(icd10_code, "I21.[0-3]") | regexm(icd10_code, "I22") , minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(01/07/2020)') censor(end)  // STEMI
-			fdiag nstemi0 using "$clean/ICD10_I" if regexm(icd10_code, "I21.4"), minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(01/07/2020)') censor(end)  // NSTEMI
-			fdiag umi0 using "$clean/ICD10_I" if regexm(icd10_code, "I21.9"), minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(01/07/2020)') censor(end) // unsepcified MI
+			fdiag stemi0 using "$clean/ICD10_I" if regexm(icd10_code, "I21.[0-3]") | regexm(icd10_code, "I22") , minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end)  // STEMI
+			fdiag nstemi0 using "$clean/ICD10_I" if regexm(icd10_code, "I21.4"), minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end)  // NSTEMI
+			fdiag umi0 using "$clean/ICD10_I" if regexm(icd10_code, "I21.9"), minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end) // unsepcified MI
 					
 	* Cerebrovascular diseases   
 				
 		* Stroke 
-			fdiag bs0 using "$clean/ICD10_I" if regexm(icd10_code, "I6[0-1]"), minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(01/07/2020)') censor(end)  // bleeding stroke
+			fdiag bs0 using "$clean/ICD10_I" if regexm(icd10_code, "I6[0-1]"), minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end)  // bleeding stroke
 			fdiag is0 using "$clean/ICD10_I" if (regexm(icd10_code, "I63") & !regexm(icd10_code, "I63.6")) | regexm(icd10_code,  "H34.1"), ///
-													 minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(01/07/2020)') censor(end)  // ischaemic stroke
-			fdiag us0 using "$clean/ICD10_I" if regexm(icd10_code, "I64"), minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(01/07/2020)') censor(end)  // unspecified stroke
+													 minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end)  // ischaemic stroke
+			fdiag us0 using "$clean/ICD10_I" if regexm(icd10_code, "I64"), minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end)  // unspecified stroke
 
 	* Revascularization prcedures
 		fhos revasc0 using "$clean/HOS" if code_type =="CPT" & (inlist(hosp_code , "33503", "33504", "33511", "33512", "33513", "33514", "33516", "33517", "33518") | /// 
 										inlist(hosp_code , "33519", "33521", "33522", "33523", "33530", "33533", "33534", "33535", "33536") | /// 
 										inlist(hosp_code , "33572", "92920", "92921", "92924", "92929", "92933", "92934", "92937", "92938") | /// 
 										inlist(hosp_code , "92941", "92944", "92973", "92980", "92981", "92982", "92984")), ///
-										minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(01/07/2020)') censor(end)  
+										minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end)  
 												
 	* Major vascular event: 49,403 (4.6%) 
 		egen mve0_y = rowmax(ua0_y stemi0_y nstemi0_y umi0_y bs0_y is0_y us0_y revasc0_y) 
@@ -45,15 +45,15 @@
 	* Strokes excluding mimicks 
 		fdiag bs1 using "$clean/ICD10_stroke" if regexm(icd10_code, "I6[0-1]"), /// bleeding stroke
 			notif(A06.6 A17 A52.[1-3] A54.8 A81.2 B00.3 B01.0 B02.1 B37.5 B38.4 B43.1 B45.1 B45.9 B58.2 B58.9 B69.0 B90.0 G0[0-7] G09 C70-7[2] C79.3) ///	
-			minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(01/07/2020)') censor(end) listpat(B000742345)
+			minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end) listpat(B000742345)
 							
 		fdiag is1 using "$clean/ICD10_stroke" if (regexm(icd10_code, "I63") & !regexm(icd10_code, "I63.6")) | regexm(icd10_code,  "H34.1"), /// ischaemic stroke
 			notif(A06.6 A17 A52.[1-3] A54.8 A81.2 B00.3 B01.0 B02.1 B37.5 B38.4 B43.1 B45.1 B45.9 B58.2 B58.9 B69.0 B90.0 G0[0-7] G09 C70-7[2] C79.3) ///
-			minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(01/07/2020)') censor(end) listpat(B012318585) 
+			minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end) listpat(B012318585) 
 													
 		fdiag us1 using "$clean/ICD10_stroke" if regexm(icd10_code, "I64"),  /// unspecified stroke
 			notif(A06.6 A17 A52.[1-3] A54.8 A81.2 B00.3 B01.0 B02.1 B37.5 B38.4 B43.1 B45.1 B45.9 B58.2 B58.9 B69.0 B90.0 G0[0-7] G09 C70-7[2] C79.3) ///
-			minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(01/07/2020)') censor(end)  listpat(B012318585) 
+			minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end)  listpat(B012318585) 
 		
 	* Major vascular event: 49,403 (4.6%) 
 		egen mve1_n = rowtotal(ua0_n stemi0_n nstemi0_n umi0_n bs1_n is1_n us1_n revasc0_n) 

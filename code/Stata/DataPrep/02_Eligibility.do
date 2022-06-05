@@ -1,19 +1,19 @@
 *** Eligibility: $repo/figures/Flowchart.pptx 
 
-	* Persons with insurance coverage between 1 Jan 2011 and 01 Jul 2020: N=1,549,123 
-		use "$clean/FUPwide", clear   
+	* Persons with insurance coverage between 1 Jan 2011 and 14 Mar 2020: N=1,537,046
+		use if start < d(15/03/2020) using "$clean/FUPwide", clear   
 		gunique pat 
 				
 	* Merge baseline characteristics  
 		merge 1:1 patient using "$clean/BAS", keep(match) nogen keepusing(birth_d sex afa popgrp) 
-		assertunique 
-		count // 1,549,123
+		assertunique patient
+		count // 1,537,046
 		
 	* Excluded: 
 		
-		* Unknown sex: N=10,004
+		* Unknown sex: N=9,928
 			drop if sex ==3 // unknown sex: 0.6
-			di %3.1fc 10004/1549123*100
+			di %3.1fc 9928/1537046*100
 			
 		* Calculate age at end of follow-up 
 			gen age_end = floor((end-birth_d)/365.25)
@@ -22,14 +22,14 @@
 			lab define age_end_cat 0 "18-24" 1 "25-34" 2 "35-44" 3 "45-54" 4 "55-64" 5 "65-74" 6 "75+", replace
 			lab val age_end_cat age_end_cat 
 			
-		* Unknown age: N=9,148
+		* Unknown age: N=9,108
 			drop if age_end ==. // unknown age: 0.6
-			di %3.1fc 9148/1549123*100
+			di %3.1fc 9108/1537046*100
 			assert inrange(age_end, 0, 100)
 			
-		* Age below 18 at end of follow-up: N=440,795
+		* Age below 18 at end of follow-up: N=435,650
 			drop if age_end <18 // 
-			di %3.1fc 440795/1549123*100
+			di %3.1fc 435650/1537046*100
 			count 
 			global N = `r(N)'
 			
@@ -41,15 +41,15 @@
 			macro drop N
 			
 				
-		* Excluded total 
-			di 10004 + 9148 + 440795
-			di %3.1fc 459947/1549123*100
+		* Excluded total: 29.6%
+			di 9928 + 9108 + 435650
+			di %3.1fc 454686/1537046*100
 			
-	* Included: N=1,089,176
+	* Included: N=1,082,360 
 		assertunique patient
 		
 	* Excluded + included = total 
-		di 459947 + 1089176
+		di 454686 + 1082360 
 		
 	* Compress
 		compress
@@ -57,11 +57,11 @@
 *** Censor deaths after end of insurance coverage
 	
 	* Confirm Ns 
-		tab death_y // total deaths: 64,087
+		tab death_y // total deaths: 64,049
 		assert death_d !=. if death_y ==1 // no missing death_d
-		count if death_y ==1 & death_d > end // death after end of insurance coverage: 26,814
-		count if death_y ==1 & death_d <= end // death while insured: 37,273
-		di 37273 + 26814 // during & after insurance coverage = total 
+		count if death_y ==1 & death_d > end // death after end of insurance coverage: 26,787
+		count if death_y ==1 & death_d <= end // death while insured: 37,262
+		di 26787 + 37262 // during & after insurance coverage = total 
 	
 	* Censor deaths after end of insurance coverage 
 		gen censored = 1 if death_y ==1 & death_d > end
@@ -136,7 +136,7 @@
 		
 	* Confirm N 
 		count 
-		assert `r(N)' == 1089176
+		assert `r(N)' == 1082360 
 		
 	* Compress
 		compress

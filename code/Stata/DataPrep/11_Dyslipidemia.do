@@ -1,21 +1,21 @@
 *** Dislipidemia (DL)
 			
 * Diagnoses 
-	fdiag dlDiag using "$clean/ICD10_E" if regexm(icd10_code, "E78.[0-5]"), mindate(`=d(01/01/2011)') maxdate(`=d(01/07/2020)') n y censor(end) 
+	fdiag dlDiag using "$clean/ICD10_E" if regexm(icd10_code, "E78.[0-5]"), mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') n y censor(end) 
 				
 * Medication
-	fdrug dlMed using "$clean/MED_ATC_C" if regexm(med_id, "C10"), mindate(`=d(01/01/2011)') maxdate(`=d(01/07/2020)') n y censor(end) 
+	fdrug dlMed using "$clean/MED_ATC_C" if regexm(med_id, "C10"), mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') n y censor(end) 
 			
 * Laboratory results 
 	
 	* HDL cholesterol
-		flab hdl using "$clean/CHOL_HDL" if lab_v < 1, mindate(`=d(01/01/2011)') maxdate(`=d(01/07/2020)') n y censor(end) 
+		flab hdl using "$clean/CHOL_HDL" if lab_v < 1, mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') n y censor(end) 
 		
 	* LDL cholesterol
-		flab ldl using "$clean/CHOL_LDL" if lab_v > 4.1, mindate(`=d(01/01/2011)') maxdate(`=d(01/07/2020)') n y censor(end) 
+		flab ldl using "$clean/CHOL_LDL" if lab_v > 4.1, mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') n y censor(end) 
 			
 	* Total cholesterol
-		flab tc using "$clean/CHOL_TOT" if lab_v > 6.2, mindate(`=d(01/01/2011)') maxdate(`=d(01/07/2020)') n y censor(end) 
+		flab tc using "$clean/CHOL_TOT" if lab_v > 6.2, mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') n y censor(end) 
 				
 * DL definitions 
 		

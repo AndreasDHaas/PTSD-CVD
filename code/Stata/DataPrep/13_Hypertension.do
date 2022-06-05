@@ -2,16 +2,16 @@
 		
 * Diagnoses 
 	fdiag htDiag using "$clean/ICD10_HT" if regexm(icd10_code, "H35.0") | regexm(icd10_code, "I1[0-5]") | regexm(icd10_code, "I67.4"), ///
-											y n mindate(`=d(01/01/2011)') maxdate(`=d(01/07/2020)') censor(end)
+											y n mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end)
 							
 * Medication 
 	fdrug htMed using "$clean/MED_ATC_C" if regexm(med_id, "C03[A-B]") | regexm(med_id, "C03EA01") | regexm(med_id, "C07[B-D]") | regexm(med_id, "C08G") | regexm(med_id, "C09BA") ///
 										| regexm(med_id, "C09DA") | regexm(med_id, "C09DX01") | regexm(med_id, "C09DX03") | regexm(med_id, "C09DX06") | regexm(med_id, "C09XA52") ///
-										| regexm(med_id, "C09XA54") | regexm(med_id, "C10BX13"), y n mindate(`=d(01/01/2011)') maxdate(`=d(01/07/2020)') censor(end)
+										| regexm(med_id, "C09XA54") | regexm(med_id, "C10BX13"), y n mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end)
 			
 * Clinical results
-	flab sbp using "$clean/BPS" if lab_id =="sbp" & lab_v >=140, y n mindate(`=d(01/01/2011)') maxdate(`=d(01/07/2020)') censor(end)
-	flab dbp using "$clean/BPD" if lab_id =="dbp" & lab_v >=90,  y n mindate(`=d(01/01/2011)') maxdate(`=d(01/07/2020)') censor(end)
+	flab sbp using "$clean/BPS" if lab_id =="sbp" & lab_v >=140, y n mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end)
+	flab dbp using "$clean/BPD" if lab_id =="dbp" & lab_v >=90,  y n mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end)
 			
 * Hypertension definitions 
 		
@@ -57,7 +57,7 @@
 	lab define ht1_y 1 "Hypertension", replace 
 	lab val ht1_y ht1_y
 	
-	lab var ht2_d "Date of first hypertension indicator: low certainty"
-	lab var ht2_y "Binary indicator for hypertension: low certainty"
+	lab var ht2_d "Date of first hypertension indicator: moderate certainty"
+	lab var ht2_y "Binary indicator for hypertension: modearte certainty"
 	lab define ht2_y 1 "Hypertension", replace 
 	lab val ht2_y ht2_y

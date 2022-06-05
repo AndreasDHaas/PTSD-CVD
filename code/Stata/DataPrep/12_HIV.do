@@ -2,23 +2,23 @@
 	
 * Diagnoses 
 	fdiag hivDiag using "$clean/ICD10_HIV" if regexm(icd10_code, "B2[0-4]") | regexm(icd10_code, "Z21") | regexm(icd10_code, "R75") | regexm(icd10_code, "O98.7") ///
-											, mindate(`=d(01/01/2011)') maxdate(`=d(01/07/2020)') n y censor(end)
+											, mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') n y censor(end)
 														
 * Medication									    PIs | NNRTIs | NRTIs|                   IIs    |        ARV combinations   &  NOT     TDF/FTC  |   TAF     |   FTC   |    3TC  (used in PrEP)    
 	fdrug hivMed using "$clean/MED_ATC_J" ///
 										if ((regexm(med_id, "J05A[E-G]") |  regexm(med_id, "J05AJ") |  regexm(med_id, "J05AR")) & !inlist(med_id, "J05AR03", "J05AF13", "J05AF09", "J05AF05")), /// 
-										mindate(`=d(01/01/2011)') maxdate(`=d(01/07/2020)') n y censor(end)	
+										mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') n y censor(end)	
 										
 * Laboratory tests 
 		
 	* HIV viral load test 
-		flab rna using "$clean/HIV_RNA" if lab_id =="HIV_RNA" & lab_v !=., mindate(`=d(01/01/2011)') maxdate(`=d(01/07/2020)') n y censor(end)
+		flab rna using "$clean/HIV_RNA" if lab_id =="HIV_RNA" & lab_v !=., mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') n y censor(end)
 				
 	* CD4 count or percent 
-		flab cd4 using "$clean/CD4" if lab_v !=.,  mindate(`=d(01/01/2011)') maxdate(`=d(01/07/2020)') n y censor(end)
+		flab cd4 using "$clean/CD4" if lab_v !=.,  mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') n y censor(end)
 				
 	* Positive HIV test: todo remove screening tests 
-		flab hivPos using "$clean/HIV_TEST" if lab_id =="HIV_TEST" & lab_v ==1,  mindate(`=d(01/01/2011)') maxdate(`=d(01/07/2020)') n y censor(end)
+		flab hivPos using "$clean/HIV_TEST" if lab_id =="HIV_TEST" & lab_v ==1,  mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') n y censor(end)
 				
 * HIV definitions 
 		

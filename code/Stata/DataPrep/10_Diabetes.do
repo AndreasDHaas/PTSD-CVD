@@ -3,21 +3,21 @@
 * Diagnoses
 	fdiag dmDiag using "$clean/ICD10_DM" if regexm(icd10_code, "E1[0-4]") | regexm(icd10_code, "G59.0") | regexm(icd10_code, "G63.2") | regexm(icd10_code, "G99.0")  ///
 										  | regexm(icd10_code, "H28.0")   | regexm(icd10_code, "H36.0")   | regexm(icd10_code, "M14.2") | regexm(icd10_code, "M14.6"), ///
-										  mindate(`=d(01/01/2011)') maxdate(`=d(01/07/2020)') n y censor(end)
+										  mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') n y censor(end)
 
 * Medications
-	fdrug dmMed using "$clean/MED_ATC_A" if regexm(med_id, "A10"), mindate(`=d(01/01/2011)') maxdate(`=d(01/07/2020)') n y censor(end) 
+	fdrug dmMed using "$clean/MED_ATC_A" if regexm(med_id, "A10"), mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') n y censor(end) 
 		
 * Laboratory results 
 		
 	* HBA1C
-		flab hba1c using "$clean/HBA1C" if lab_id == "HBA1C" & lab_v >= 48, mindate(`=d(01/01/2011)') maxdate(`=d(01/07/2020)') n y censor(end) 
+		flab hba1c using "$clean/HBA1C" if lab_id == "HBA1C" & lab_v >= 48, mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') n y censor(end) 
 		
 	* Fasting blood glucose
-		flab fast using "$clean/BGLUC_FAST" if lab_id == "BGLUC_FAST" & lab_v >=7, mindate(`=d(01/01/2011)') maxdate(`=d(01/07/2020)') n y censor(end) 
+		flab fast using "$clean/BGLUC_FAST" if lab_id == "BGLUC_FAST" & lab_v >=7, mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') n y censor(end) 
  
 	* Random blood glucose
-		flab ran using "$clean/BGLUC_RAN" if lab_id == "BGLUC_RAN" & lab_v >= 11.1, mindate(`=d(01/01/2011)') maxdate(`=d(01/07/2020)') n y censor(end) 
+		flab ran using "$clean/BGLUC_RAN" if lab_id == "BGLUC_RAN" & lab_v >= 11.1, mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') n y censor(end) 
 					
 * DM definitions 
 	
