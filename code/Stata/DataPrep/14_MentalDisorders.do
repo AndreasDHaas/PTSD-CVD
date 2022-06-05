@@ -18,7 +18,7 @@
 		* F1
 			fdiag alc1 using "$clean/ICD10_F" if regexm(icd10_code, "F10"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Alcohol use disorder") censor(end)
 			fdiag drug1 using "$clean/ICD10_F" if regexm(icd10_code, "F1[1-6]") | regexm(icd10_code, "F1[8-9]"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Drug use disorder") censor(end)
-			fdiag tobacco1 using "$clean/ICD10_F" if regexm(icd10_code, "F17"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Tobacco use disorder") censor(end)
+			fdiag tobacco1 using "$clean/ICD10_F" if regexm(icd10_code, "F17"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Tobacco use disorder") censor(end) // N07BA drugs used in nicotine dependence
 		
 		* F3
 			fdiag bp1 using "$clean/ICD10_F" if regexm(icd10_code, "F31"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Bipolar disorder") censor(end)
