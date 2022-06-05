@@ -61,3 +61,5 @@
 	lab var ht2_y "Binary indicator for hypertension: modearte certainty"
 	lab define ht2_y 1 "Hypertension", replace 
 	lab val ht2_y ht2_y
+	
+
