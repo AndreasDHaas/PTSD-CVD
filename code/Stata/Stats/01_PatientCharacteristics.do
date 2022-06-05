@@ -33,6 +33,7 @@
 			percentages anx1_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)
 			percentages ptsd1_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(7)	
 			percentages othanx1_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(7)	
+			percentages sleep1_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)	
 			percentages omd1_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)
 			
 		* Psychiatric comorbidity: simple - moderate certainty
@@ -42,12 +43,14 @@
 			percentages anx2_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)
 			percentages ptsd2_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(7)	
 			percentages othanx2_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(7)	
+			percentages sleep2_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)	
 			percentages omd2_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)
 			
 		* Psychiatric comorbidity: detailed - low certainty
 			percentages su1_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) heading("   Psychiatric comorbidity: low certainty") clean drop("0")	indent(5) 			
 			percentages alc1_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(7)
-			percentages drug1_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(7)		
+			percentages drug1_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(7)
+			percentages tobacco1_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(7)		
 			percentages psy1_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)			
 			percentages mood1_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)
 			percentages bp1_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(7)	
@@ -62,12 +65,14 @@
 			percentages ptsd1_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(7)	
 			percentages adj1_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(7)	
 			percentages oad1_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(7)
+			percentages sleep1_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)	
 			percentages omd1_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)
 			
 		* Psychiatric comorbidity: detailed - low certainty
 			percentages su2_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) heading("   Psychiatric comorbidity: detailed - moderate certainty") clean drop("0")	indent(5) 	
 			percentages alc2_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(7)
 			percentages drug2_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(7)		
+			percentages tobacco2_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(7)		
 			percentages psy2_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)			
 			percentages mood2_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)
 			percentages bp2_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(7)	
@@ -82,6 +87,7 @@
 			percentages ptsd2_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(7)	
 			percentages adj2_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(7)	
 			percentages oad2_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(7)
+			percentages sleep2_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)	
 			percentages omd2_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)
 			
 		* MVE - version 2 - excluding stroke mimicks 
@@ -152,7 +158,8 @@
 			percentages mood1_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)
 			percentages anx1_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)
 			percentages ptsd1_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(7)	
-			percentages othanx1_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(7)	
+			percentages othanx1_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(7)
+			percentages sleep1_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)	
 			percentages omd1_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)
 			
 		* Psychiatric comorbidity: simple - moderate certainty
@@ -162,12 +169,14 @@
 			percentages anx2_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)
 			percentages ptsd2_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(7)	
 			percentages othanx2_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(7)	
+			percentages sleep1_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)	
 			percentages omd2_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)
 			
 		* Psychiatric comorbidity: detailed - low certainty
 			percentages su1_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) heading("   Psychiatric comorbidity (detailed): low certainty") clean drop("0")	indent(5) 			
 			percentages alc1_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(7)
-			percentages drug1_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(7)		
+			percentages drug1_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(7)
+			percentages tobacco1_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(7)		
 			percentages psy1_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)			
 			percentages mood1_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)
 			percentages bp1_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(7)	
@@ -182,12 +191,14 @@
 			percentages ptsd1_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(7)	
 			percentages adj1_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(7)	
 			percentages oad1_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(7)
+			percentages sleep1_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)	
 			percentages omd1_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)
 			
 		* Psychiatric comorbidity: detailed - low certainty
 			percentages su2_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) heading("   Psychiatric comorbidity (detailed): moderate certainty") clean drop("0")	indent(5) 	
 			percentages alc2_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(7)
 			percentages drug2_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(7)		
+			percentages tobacco2_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(7)		
 			percentages psy2_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)			
 			percentages mood2_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)
 			percentages bp2_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(7)	
@@ -202,6 +213,7 @@
 			percentages ptsd2_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(7)	
 			percentages adj2_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(7)	
 			percentages oad2_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(7)
+			percentages sleep2_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)	
 			percentages omd2_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)
 			
 		* MVE - version 2 - excluding stroke mimicks 
