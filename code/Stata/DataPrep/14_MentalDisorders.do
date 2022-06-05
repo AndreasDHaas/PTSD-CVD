@@ -39,53 +39,30 @@
 			fdiag othanx1 using "$clean/ICD10_F" if regexm(icd10_code, "F4") & (!regexm(icd10_code, "F43.1") & !regexm(icd10_code, "F41.9") ), ///
 			n y mindate(`=d(01/01/2011)') maxdate(`=d(01/07/2020)') label("Other anxiety disorders") censor(end) 	
 			
-* Version 2: medium certainty
-	foreach var in org su psy mood anx omd ptsd othanx alc drug bp dep omood panic gad ad uad asr adj oad {
-		gen `var'2_d = `var'1_d if `var'1_n >= 2 & `var'1_n !=. & `var'1_y ==1 
-		format `var'2_d %tdD_m_CY
-		gen `var'2_y = `var'1_n >= 2 & `var'1_n !=. & `var'1_y ==1
-		*listif patient `var'1_n `var'1_d `var'1_y `var'2_d `var'2_y if `var'1_y==1, id(patient) sort(patient) sepby(patient) seed(1) n(5)
-		lab val `var'2_y `var'1_y
-	}
-		
-	* Add recoded PTSD variable for descriptive tables: PTSD==1, no PTSD==2
-		gen ptsd = 2-ptsd1_y 
-		lab define ptsd 1 "PTSD" 2 "No PTSD", replace
-		lab val ptsd ptsd
-		tab ptsd ptsd1_y
-		lab var ptsd "Indicator for depression at end of follow-up: PTSD==1, no PTSD==2"
-		
-	* Add recoded anxiety variable for descriptive tables: anxiety==1, no anxiety==2
-		gen anx = 2-anx1_y 
-		lab define anx 1 "Anxiety" 2 "No anxiety", replace
-		lab val anx anx
-		tab anx anx1_y
-		lab var anx "Indicator for anxiety at end of follow-up: anxiety==1, no anxiety==2"
-			
-	* Label: certainty level 1
+	* Variable labels
 		foreach d in mhd org su psy mood anx omd alc drug bp dep omood panic gad ad uad asr ptsd adj oad othanx  {
-			if "`d'" == "mhd" local t "mental health"
-			else if "`d'" == "org" local t "organic mental disorder"
-			else if "`d'" == "su" local t "substance use disorder"
-			else if "`d'" == "psy" local t "psychotic disorder disorder"
-			else if "`d'" == "mood" local t "mood disorder"
-			else if "`d'" == "anx" local t "anxiety disorder"
-			else if "`d'" == "ptsd" local t "PTSD"
+			if "`d'" == "mhd" local t "mental health (low certainty)" 
+			else if "`d'" == "org" local t "organic mental disorder (low certainty)" 
+			else if "`d'" == "su" local t "substance use disorder (low certainty)" 
+			else if "`d'" == "psy" local t "psychotic disorder disorder (low certainty)" 
+			else if "`d'" == "mood" local t "mood disorder (low certainty)" 
+			else if "`d'" == "anx" local t "anxiety disorder (low certainty)" 
+			else if "`d'" == "ptsd" local t "PTSD (low certainty)" 
 			else if "`d'" == "othanx" local t "other anxiety (F4* excl. PTSD and unsp. anxiety)"	
-			else if "`d'" == "omd" local t "other mental disorder"
+			else if "`d'" == "omd" local t "other mental disorder (low certainty)" 
 			
-			else if "`d'" == "alc" local t "alcohol use disorder"		
-			else if "`d'" == "drug" local t "durg use disorder"
-			else if "`d'" == "bp" local t "bipolar disorder"
-			else if "`d'" == "dep" local t "depression"
-			else if "`d'" == "omood" local t "other mood disorder"
-			else if "`d'" == "panic" local t "panic disorder"
-			else if "`d'" == "gad" local t "generalized anxiety disorder"
-			else if "`d'" == "ad" local t "anxiety and depression"
-			else if "`d'" == "uad" local t "unspecified anxiety disorder"
-			else if "`d'" == "asr" local t "acute or severe stress reaction"
-			else if "`d'" == "adj" local t "adjustment disorder"
-			else if "`d'" == "oad" local t "other anxiety disorder disorder"
+			else if "`d'" == "alc" local t "alcohol use disorder (low certainty)" 		
+			else if "`d'" == "drug" local t "durg use disorder (low certainty)" 
+			else if "`d'" == "bp" local t "bipolar disorder (low certainty)" 
+			else if "`d'" == "dep" local t "depression (low certainty)" 
+			else if "`d'" == "omood" local t "other mood disorder (low certainty)" 
+			else if "`d'" == "panic" local t "panic disorder (low certainty)" 
+			else if "`d'" == "gad" local t "generalized anxiety disorder (low certainty)" 
+			else if "`d'" == "ad" local t "anxiety and depression (low certainty)" 
+			else if "`d'" == "uad" local t "unspecified anxiety disorder (low certainty)" 
+			else if "`d'" == "asr" local t "acute or severe stress reaction (low certainty)" 
+			else if "`d'" == "adj" local t "adjustment disorder (low certainty)" 
+			else if "`d'" == "oad" local t "other anxiety disorder disorder (low certainty)" 
 			
 			else local t "----- MISSING -----"
 			
@@ -95,37 +72,59 @@
 		
 		}
 		
-	* Label: certainty level 2
-		foreach d in org su psy mood anx omd ptsd othanx  {
-			if "`d'" == "org" local t "organic mental disorder (certainty level 2)"
-			else if "`d'" == "su" local t "substance use disorder (certainty level 2)"
-			else if "`d'" == "psy" local t "psychotic disorder disorder (certainty level 2)"
-			else if "`d'" == "mood" local t "mood disorder (certainty level 2)"
-			else if "`d'" == "anx" local t "anxiety disorder (certainty level 2)"
-			else if "`d'" == "ptsd" local t "PTSD (certainty level 2)"
-			else if "`d'" == "othanx" local t "other anxiety (certainty level 2)"	
-			else if "`d'" == "omd" local t "other mental disorder (certainty level 2)"
+* Version 2: medium certainty
+	
+	* Generate variables and assign value labels 
+		foreach var in org su psy mood anx omd ptsd othanx alc drug bp dep omood panic gad ad uad asr adj oad {
+			gen `var'2_d = `var'1_d if `var'1_n >= 2 & `var'1_n !=. & `var'1_y ==1 
+			format `var'2_d %tdD_m_CY
+			gen `var'2_y = `var'1_n >= 2 & `var'1_n !=. & `var'1_y ==1
+			*listif patient `var'1_n `var'1_d `var'1_y `var'2_d `var'2_y if `var'1_y==1, id(patient) sort(patient) sepby(patient) seed(1) n(5)
+			lab val `var'2_y `var'1_y
+		}
+		
+	* Variable labels 
+		foreach d in org su psy mood anx omd ptsd othanx alc drug bp dep omood panic gad ad uad asr adj oad   {
+			if "`d'" == "org" local t "organic mental disorder (moderate certainty)" 
+			else if "`d'" == "su" local t "substance use disorder (moderate certainty)" 
+			else if "`d'" == "psy" local t "psychotic disorder disorder (moderate certainty)" 
+			else if "`d'" == "mood" local t "mood disorder (moderate certainty)" 
+			else if "`d'" == "anx" local t "anxiety disorder (moderate certainty)" 
+			else if "`d'" == "ptsd" local t "PTSD (moderate certainty)" 
+			else if "`d'" == "othanx" local t "other anxiety (moderate certainty)" 	
+			else if "`d'" == "omd" local t "other mental disorder (moderate certainty)" 
 			
-			else if "`d'" == "alc" local t "alcohol use disorder (certainty level 2)"		
-			else if "`d'" == "drug" local t "durg use disorder (certainty level 2)"
-			else if "`d'" == "bp" local t "bipolar disorder (certainty level 2)"
-			else if "`d'" == "dep" local t "depression (certainty level 2)"
-			else if "`d'" == "omood" local t "other mood disorder (certainty level 2)"
-			else if "`d'" == "panic" local t "panic disorder (certainty level 2)"
-			else if "`d'" == "gad" local t "generalized anxiety disorder (certainty level 2)"
-			else if "`d'" == "ad" local t "anxiety and depression (certainty level 2)"
-			else if "`d'" == "uad" local t "unsepcified anxiety disorder (certainty level 2)"
-			else if "`d'" == "asr" local t "acute or severe stress reaction (certainty level 2)"
-			else if "`d'" == "adj" local t "adjustment disorder (certainty level 2)"
-			else if "`d'" == "oad" local t "other anxiety disorder disorder (certainty level 2)"
+			else if "`d'" == "alc" local t "alcohol use disorder (moderate certainty)" 		
+			else if "`d'" == "drug" local t "durg use disorder (moderate certainty)" 
+			else if "`d'" == "bp" local t "bipolar disorder (moderate certainty)" 
+			else if "`d'" == "dep" local t "depression (moderate certainty)" 
+			else if "`d'" == "omood" local t "other mood disorder (moderate certainty)" 
+			else if "`d'" == "panic" local t "panic disorder (moderate certainty)" 
+			else if "`d'" == "gad" local t "generalized anxiety disorder (moderate certainty)" 
+			else if "`d'" == "ad" local t "anxiety and depression (moderate certainty)" 
+			else if "`d'" == "uad" local t "unsepcified anxiety disorder (moderate certainty)" 
+			else if "`d'" == "asr" local t "acute or severe stress reaction (moderate certainty)" 
+			else if "`d'" == "adj" local t "adjustment disorder (moderate certainty)" 
+			else if "`d'" == "oad" local t "other anxiety disorder disorder (moderate certainty)" 
 			
 			else local t "----- MISSING -----"
 			
 			lab var `d'2_d "Date of first `t' diagnosis"
 			lab var `d'2_y "Binary indicator for `t' diagnosis at end"
 		
-		}
+		}	
 		
+* Recoded PTSD variable for descriptive tables: PTSD==1, no PTSD==2
+	gen ptsd = 2-ptsd1_y 
+	lab define ptsd 1 "PTSD" 2 "No PTSD", replace
+	lab val ptsd ptsd
+	tab ptsd ptsd1_y
+	lab var ptsd "Indicator for depression at end of follow-up: PTSD==1, no PTSD==2"
 		
-		
+* Recoded anxiety variable for descriptive tables: anxiety==1, no anxiety==2
+	gen anx = 2-anx1_y 
+	lab define anx 1 "Anxiety" 2 "No anxiety", replace
+	lab val anx anx
+	tab anx anx1_y
+	lab var anx "Indicator for anxiety at end of follow-up: anxiety==1, no anxiety==2"	
 	

@@ -35,11 +35,25 @@
 			assert dl1_d !=. if dl1_y == 1
 			assert dl1_d ==. if dl1_y == 0
 			
+	* Version 2: moderate certainty
+		foreach var in dl {
+			gen `var'2_d = `var'1_d if `var'1_n >= 2 & `var'1_n !=. & `var'1_y ==1 
+			format `var'2_d %tdD_m_CY
+			gen `var'2_y = `var'1_n >= 2 & `var'1_n !=. & `var'1_y ==1
+			listif patient `var'1_n `var'1_d `var'1_y `var'2_d `var'2_y if `var'1_y==1, id(patient) sort(patient) sepby(patient) seed(1) n(5)
+			lab val `var'2_y `var'1_y
+		}
+			
 * Clean 
 	drop dlDiag_d dlDiag_n dlDiag_y dlMed_d dlMed_n dlMed_y hdl_d hdl_n hdl_y ldl_d ldl_n ldl_y tc_d tc_n tc_y dl1_n
 	
 * Label 
-	lab var dl1_d "Date of first dyslipidemia indicator"
-	lab var dl1_y "Binary indicator for dyslipidemia"
+	lab var dl1_d "Date of first dyslipidemia indicator: low certainty"
+	lab var dl1_y "Binary indicator for dyslipidemia: low certainty"
 	lab define dl1_y 1 "Dyslipidemia", replace 
 	lab val dl1_y dl1_y
+	
+	lab var dl2_d "Date of first dyslipidemia indicator: moderate certainty"
+	lab var dl2_y "Binary indicator for dyslipidemia: moderate certainty"
+	lab define dl2_y 1 "Dyslipidemia", replace 
+	lab val dl2_y dl2_y

@@ -39,11 +39,25 @@
 			assert ht1_d !=. if ht1_y == 1
 			assert ht1_d ==. if ht1_y == 0
 			
+	* Version 2: moderate certainty
+		foreach var in ht {
+			gen `var'2_d = `var'1_d if `var'1_n >= 2 & `var'1_n !=. & `var'1_y ==1 
+			format `var'2_d %tdD_m_CY
+			gen `var'2_y = `var'1_n >= 2 & `var'1_n !=. & `var'1_y ==1
+			listif patient `var'1_n `var'1_d `var'1_y `var'2_d `var'2_y if `var'1_y==1, id(patient) sort(patient) sepby(patient) seed(1) n(5)
+			lab val `var'2_y `var'1_y
+		}
+			
 * Clean 
 	drop htDiag_d htDiag_n htDiag_y htMed_d htMed_n htMed_y sbp_d sbp_n sbp_y dbp_d dbp_n dbp_y sbp dbp ht1_n
 	
 * Label 
-	lab var ht1_d "Date of first hypertension indicator"
-	lab var ht1_y "Binary indicator for hypertension"
+	lab var ht1_d "Date of first hypertension indicator: low certainty"
+	lab var ht1_y "Binary indicator for hypertension: low certainty"
 	lab define ht1_y 1 "Hypertension", replace 
 	lab val ht1_y ht1_y
+	
+	lab var ht2_d "Date of first hypertension indicator: low certainty"
+	lab var ht2_y "Binary indicator for hypertension: low certainty"
+	lab define ht2_y 1 "Hypertension", replace 
+	lab val ht2_y ht2_y

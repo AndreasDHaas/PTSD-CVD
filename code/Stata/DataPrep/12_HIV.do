@@ -38,12 +38,25 @@
 			replace hiv1_d = start if hiv1_d ==. & hiv1_y==1 // set HIV positive date to start of follow-up
 			assert hiv1_d ==. if hiv1_y == 0	
 			
+	* Version 2: moderate certainty
+		foreach var in hiv {
+			gen `var'2_d = `var'1_d if `var'1_n >= 2 & `var'1_n !=. & `var'1_y ==1 
+			format `var'2_d %tdD_m_CY
+			gen `var'2_y = `var'1_n >= 2 & `var'1_n !=. & `var'1_y ==1
+			listif patient `var'1_n `var'1_d `var'1_y `var'2_d `var'2_y if `var'1_y==1, id(patient) sort(patient) sepby(patient) seed(1) n(5)
+			lab val `var'2_y `var'1_y
+		}
 			
 * Clean 
 	drop hivDiag_d hivDiag_n hivDiag_y hivMed_d hivMed_n hivMed_y rna_d rna_n rna_y cd4_d cd4_n cd4_y hivPos_d hivPos_n hivPos_y hiv1_n
 	
 * Label 
-	lab var hiv1_d "Date of first HIV indicator"
-	lab var hiv1_y "Binary indicator for positive HIV status"
+	lab var hiv1_d "Date of first HIV indicator: low certainty"
+	lab var hiv1_y "Binary indicator for positive HIV status: low certainty"
 	lab define hiv1_y 1 "HIV", replace 
 	lab val hiv1_y hiv1_y
+	
+	lab var hiv2_d "Date of first HIV indicator: moderate certainty"
+	lab var hiv2_y "Binary indicator for positive HIV status: moderate certainty"
+	lab define hiv2_y 1 "HIV", replace 
+	lab val hiv2_y hiv2_y
