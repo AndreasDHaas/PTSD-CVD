@@ -5,7 +5,7 @@
 		
 * List of variables to be split at event dates 
 	// global tvc "mve1 dm1 dl1 hiv1 ht1 mhd1 org1 su1 psy1 mood1 anx1 omd1 alc1 drug1 bp1 dep1 omood1 gad1 ptsd1 ad1 oad1"
-	global tvc "mve1 dm1 dl1 hiv1 ht1 mhd1 org1 su1 psy1 mood1 anx1 omd1 ptsd1 othanx1"
+	global tvc "mve1 dm1 dl1 hiv1 ht1 mhd1 org1 su1 psy1 mood1 anx1 omd1 ptsd1 othanx1 tobacco1 sleep1"
 
 * Checks 
 		
@@ -188,7 +188,7 @@
 		assert float($mve_fup) == float($mve_fup1)	
 		
 * Generate time-varing variables for moderate certainty 
-	foreach var in ptsd othanx org su psy mood omd mve dm dl hiv ht { 
+	foreach var in ptsd othanx org su psy mood omd mve dm dl hiv ht sleep tobacco { 
 		gen byte `var'2_y_tvc = `var'1_y_tvc  
 		replace `var'2_y_tvc = 0 if `var'2_d ==.
 		*listif start18 end `var'1_d `var'1_y `var'1_n `var'1_y_tvc `var'2_d `var'2_y `var'2_y_tvc if `var'1_d !=. & `var'2_d ==., sepby(patient) id(patient) sort(patient start18) n(1) nolab seed(1)
@@ -289,9 +289,14 @@
 		lab val mve1_y_tvc mve1_y_tvc	
 		lab define othanx1_y_tvc 1 "Other anxiety disorders", replace 
 		lab val othanx1_y_tvc othanx1_y_tvc	
+		lab define sleep1_y_tvc 1 "Sleep disorders", replace 
+		lab val sleep1_y_tvc sleep1_y_tvc	
+		lab define tobacco1_y_tvc 1 "Tobacco use disorders", replace 
+		lab val tobacco1_y_tvc tobacco1_y_tvc	
+		
 		
 	* Labels for variables with moderate certainty 
-		foreach var in ptsd othanx org su psy mood omd mve dm dl hiv ht {  
+		foreach var in ptsd othanx org su psy mood omd mve dm dl hiv ht sleep tobacco {  
 			lab val `var'2_y_tvc `var'1_y_tvc
 		}
 		
