@@ -33,7 +33,7 @@
 			tab ht1_y, mi 
 										
 		* Checks
-			assert inrange(ht1_d, `=d(01/01/2011)', `=d(01/07/2020)') if ht1_d !=. 
+			assert inrange(ht1_d, `=d(01/01/2011)', `=d(15/03/2020)') if ht1_d !=. 
 			assert inlist(ht1_y, 0, 1)
 			assert ht1_y == 1 if ht1_d !=.
 			assert ht1_d !=. if ht1_y == 1

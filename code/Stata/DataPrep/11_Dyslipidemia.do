@@ -29,7 +29,7 @@
 			tab dl1_y, mi 
 					
 		* Checks
-			assert inrange(dl1_d, `=d(01/01/2011)', `=d(01/07/2020)') if dl1_d !=. 
+			assert inrange(dl1_d, `=d(01/01/2011)', `=d(15/03/2020)') if dl1_d !=. 
 			assert inlist(dl1_y, 0, 1)
 			assert dl1_y == 1 if dl1_d !=.
 			assert dl1_d !=. if dl1_y == 1

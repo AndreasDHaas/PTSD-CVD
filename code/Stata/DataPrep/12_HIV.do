@@ -31,7 +31,7 @@
 			egen hiv1_y = rowmax(hivDiag_y hivMed_y rna_y cd4_y hivPos_y afa)
 		
 		* Checks 
-			assert inrange(hiv1_d, `=d(01/01/2011)', `=d(01/07/2020)') if hiv1_d !=. 
+			assert inrange(hiv1_d, `=d(01/01/2011)', `=d(15/03/2020)') if hiv1_d !=. 
 			assert inlist(hiv1_y, 0, 1)
 			assert hiv1_y == 1 if hiv1_d !=.
 			count if hiv1_d ==. & hiv1_y == 1 // !!! AfA members wihtout other HIV indicator have missing hiv_d !!! 

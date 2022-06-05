@@ -32,7 +32,7 @@
 		tab mve0_y, mi 
 		egen mve0_d = rowmin(ua0_d stemi0_d nstemi0_d umi0_d bs0_d is0_d us0_d revasc0_d) 
 		format mve0_d %tdD_m_CY
-		assert inrange(mve0_d, `=d(01/01/2011)', `=d(01/07/2020)') if mve0_d !=.
+		assert inrange(mve0_d, `=d(01/01/2011)', `=d(15/03/2020)') if mve0_d !=.
 				
 	* Checks
 		assert inlist(mve0_y, 0, 1)
@@ -61,7 +61,7 @@
 		tab mve1_y, mi 
 		egen mve1_d = rowmin(ua0_d stemi0_d nstemi0_d umi0_d bs1_d is1_d us1_d revasc0_d) 
 		format mve1_d %tdD_m_CY
-		assert inrange(mve1_d, `=d(01/01/2011)', `=d(01/07/2020)') if mve1_d !=.
+		assert inrange(mve1_d, `=d(01/01/2011)', `=d(15/03/2020)') if mve1_d !=.
 				
 	* Checks  
 		assert inlist(mve1_y, 0, 1)
