@@ -5,6 +5,13 @@
 		append using "$clean/ICD10_R"
 		sort patient icd10_date
 		save "$clean/ICD10_F_R", replace
+		
+	* Append tables with sleep disorder diagnoses 
+		use "$clean/ICD10_F", clear
+		append using "$clean/ICD10_G"
+		sort patient icd10_date
+		keep if regexm(icd10_code, "F51") | regexm(icd10_code, "G47")
+		save "$clean/ICD10_F_G", replace
 	
 	* Append tables with diabetes diagnoses  
 		use "$clean/ICD10_E", clear
