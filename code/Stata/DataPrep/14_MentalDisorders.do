@@ -11,7 +11,7 @@
 		fdiag psy1 using "$clean/ICD10_F_R" if regexm(icd10_code, "F2") | regexm(icd10_code, "R44.[0-3]"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Psychotic disorder") censor(end)
 		fdiag mood1 using "$clean/ICD10_F" if regexm(icd10_code, "F3"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Mood disorder") censor(end)
 		fdiag anx1 using "$clean/ICD10_F" if regexm(icd10_code, "F4"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Anxiety disorder") censor(end)
-		fdiag omd1 using "$clean/ICD10_F" if regexm(icd10_code, "F[5-9]") & !regexm(icd10_code, "F51", n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Other mental disorders") censor(end)
+		fdiag omd1 using "$clean/ICD10_F" if regexm(icd10_code, "F[5-9]") & !regexm(icd10_code, "F51"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Other mental disorders") censor(end)
 	
 	* Sub-categories 
 		
