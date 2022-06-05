@@ -18,7 +18,7 @@
 		save "$clean/analyseWide", replace 
 			
 	* Prepare dataset for survival analysis: $clean/analyseSurv.dta 
-		do "$do/30_AnalyseSurv.do"	
+		do "$do/DataPrep/30_AnalyseSurv.do"	
 		
 * Statistical analysis
 		
