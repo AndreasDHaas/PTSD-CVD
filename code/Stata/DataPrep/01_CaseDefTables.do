@@ -1,10 +1,12 @@
 *** Prepare tables for case definitions 
 
 	* Append tables with mental health diagnoses 
-		use "$clean/ICD10_F", clear
+		use "$clean/ICD10_Z", clear
+		drop if regexm(icd10_code, "Z76.[8-9]") | regexm(icd10_code, "Z01.7")
+		append using "$clean/ICD10_F"
 		append using "$clean/ICD10_R"
 		sort patient icd10_date
-		save "$clean/ICD10_F_R", replace
+		save "$clean/ICD10_F_R_Z", replace
 		
 	* Append tables with obesity diagnoses 
 		use "$clean/ICD10_E", clear

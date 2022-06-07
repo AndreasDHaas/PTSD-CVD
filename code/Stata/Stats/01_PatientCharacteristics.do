@@ -22,7 +22,10 @@
 			percentages dm1_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) heading("   CVD risk factors") clean drop("0") indent(5) 
 			percentages ht1_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) clean noheading drop("0") indent(5) 
 			percentages dl1_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) clean noheading drop("0") indent(5) 
-			
+			percentages ob1_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) clean noheading drop("0") indent(5) 
+			percentages ow1_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) clean noheading drop("0") indent(5) 
+			percentages sm1_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) clean noheading drop("0") indent(5) 
+		
 		* HIV 
 			percentages hiv1_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) clean noheading drop("0") indent(3) 
 			
@@ -148,6 +151,8 @@
 			percentages dm1_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) heading("   CVD risk factors") clean drop("0") indent(5) 
 			percentages ht1_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) clean noheading drop("0") indent(5) 
 			percentages dl1_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) clean noheading drop("0") indent(5) 
+			percentages ow1_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) clean noheading drop("0") indent(5) 
+			percentages sm1_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) clean noheading drop("0") indent(5) 
 			
 		* HIV 
 			percentages hiv1_y anx, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) clean noheading drop("0") indent(3) 
