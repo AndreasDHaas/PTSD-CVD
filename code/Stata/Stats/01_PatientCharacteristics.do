@@ -93,16 +93,24 @@
 			percentages sleep2_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)	
 			percentages omd2_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)
 			
-		* MVE - version 2 - excluding stroke mimicks 
-			percentages mve1_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(3)		
-			percentages ua0_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)	
-			percentages stemi0_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)			
-			percentages nstemi0_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)
-			percentages umi0_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)
-			percentages revasc0_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)		  
+		* MACE  
+			percentages mac2e1_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(3)	
+			percentages mac3e1_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(3)
+			percentages mac4e1_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(3)
+			
+			percentages stemi1_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)			
+			percentages nstemi1_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)
+			percentages umi1_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)
+			
 			percentages bs1_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)	
 			percentages is1_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)
 			percentages us1_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)
+			
+			percentages ua1_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)	
+			
+			percentages revasc1_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)		  
+	
+			percentages hf1_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(5)			
 						
 		* Mortality 
 			percentages death_y ptsd, append("$temp/chrPAT") percentformat(%3.1fc) freqf(%9.0fc) noheading clean drop("0") indent(3)	
@@ -127,7 +135,7 @@
 		putdocx pagebreak
 		putdocx save "$tables/Table 1_PTSD.docx", replace
 		
-***  Patient characteristics of by anxiety at the end of follow-up 
+/***  Patient characteristics of by anxiety at the end of follow-up 
 
 	* AnalyseWide table 
 		use "$clean/analyseWide", clear	

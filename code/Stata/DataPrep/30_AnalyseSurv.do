@@ -5,7 +5,7 @@
 		
 * List of variables to be split at event dates 
 	// global tvc "mve1 dm1 dl1 hiv1 ht1 mhd1 org1 su1 psy1 mood1 anx1 omd1 alc1 drug1 bp1 dep1 omood1 gad1 ptsd1 ad1 oad1"
-	global tvc "mve1 dm1 dl1 hiv1 ht1 mhd1 org1 su1 psy1 mood1 anx1 omd1 ptsd1 othanx1 tobacco1 sleep1"
+	global tvc "mac2e1 mac3e1 mac4e1 dm1 dl1 hiv1 ht1 mhd1 org1 su1 psy1 mood1 anx1 omd1 ptsd1 othanx1 tobacco1 sleep1"
 
 * Checks 
 		
@@ -49,15 +49,15 @@
 		*list patient start18 ptsd1_d ptsd_fup if inlist(patient, "B002178232", "B003860756", "B004373540")
 			
 	* Total person-time of patients after major vascular event, y
-		gen mve_fup = (end - mve1_d)/365.25
-		replace mve_fup = (end-start18)/365.25 if mve1_d < start18 // left-truncate at 18th birthday 
+		gen mve_fup = (end - mac2e1_d)/365.25
+		replace mve_fup = (end-start18)/365.25 if mac2e1_d < start18 // left-truncate at 18th birthday 
 		total mve_fup 
 		global mve_fup = e(b)[1,1]
 		di %16.2fc $mve_fup // 143,558.56
 			
 	* Save dataset with person-time exposed and under follow-up
 		preserve 
-		keep patient fup fup_y ptsd_fup mve_fup start18 end ptsd1_d mve1_d
+		keep patient fup fup_y ptsd_fup mve_fup start18 end ptsd1_d mac2e1_d
 		save "$temp/personTime", replace
 		restore
 			
@@ -179,8 +179,8 @@
 			restore */
 						
 	* Total person-time of patients after major vascular event, y
-		gen mve_fup1 = (end - start18)/365.25 if mve1_y_tvc==1
-		listif patient start18 end mve1_y_tvc mve1_d mve_fup1 if mve1_d !=., sepby(patient) id(patient) sort(patient start18) seed(3) n(5)
+		gen mve_fup1 = (end - start18)/365.25 if mac2e1_y_tvc==1
+		listif patient start18 end mac2e1_y_tvc mac2e1_d mve_fup1 if mac2e1_d !=., sepby(patient) id(patient) sort(patient start18) seed(3) n(5)
 		total mve_fup1 
 		global mve_fup1 = e(b)[1,1]
 		di %16.2fc $mve_fup // 140,267.53
@@ -188,7 +188,7 @@
 		assert float($mve_fup) == float($mve_fup1)	
 		
 * Generate time-varing variables for moderate certainty 
-	foreach var in ptsd othanx org su psy mood omd mve dm dl hiv ht sleep tobacco { 
+	foreach var in mac2e mac3e mac4e dm dl hiv ht sleep tobacco { 
 		gen byte `var'2_y_tvc = `var'1_y_tvc  
 		replace `var'2_y_tvc = 0 if `var'2_d ==.
 		*listif start18 end `var'1_d `var'1_y `var'1_n `var'1_y_tvc `var'2_d `var'2_y `var'2_y_tvc if `var'1_d !=. & `var'2_d ==., sepby(patient) id(patient) sort(patient start18) n(1) nolab seed(1)
@@ -212,20 +212,22 @@
 	
 * Update time-varing variable for mve
 	forvalues j = 1/2 {
-		list patient start18 end mve`j'_d mve`j'_y mve`j'_y_tvc if patient =="B001727470", nolab
-		replace mve`j'_y_tvc = 1 if end == mve`j'_d & mve`j'_y ==1
-		listif patient start18 end mve`j'_d mve`j'_y mve`j'_y_tvc if mve`j'_y ==1, id(patient) sort(patient start18) nolab seed(1) n(5) sepby(patient mve`j'_y_tvc)
-		assert mve`j'_y_tvc ==1 if end == mve`j'_d
-		bysort patient mve`j'_y_tvc (start18): gen n = _n
-		listif patient start18 end mve`j'_d mve`j'_y mve`j'_y_tvc n if mve`j'_y ==1, id(patient) sort(patient start18) nolab seed(1) n(2) sepby(patient mve`j'_y_tvc)
-		listif patient start18 end mve`j'_d mve`j'_y mve`j'_y_tvc n if mve`j'_y ==1, id(patient) sort(patient start18) nolab seed(1) n(2) sepby(patient mve`j'_y_tvc)
-		count if end != mve`j'_d & n ==1 & mve`j'_y ==1 & mve`j'_y_tvc ==1
-		* events on start18 <- set _tvc to 0
-		listif patient start18 end mve`j'_d mve`j'_y mve`j'_y_tvc n if end != mve`j'_d & n ==1 & mve`j'_y ==1 & mve`j'_y_tvc ==1, id(patient) sort(patient start18) nolab seed(1) n(2) sepby(patient mve`j'_y_tvc)
-		replace mve`j'_y_tvc = 0 if end != mve`j'_d & n ==1 & mve`j'_y ==1 & mve`j'_y_tvc ==1
-		assert end == mve`j'_d if n ==1 & mve`j'_y_tvc ==1 
-		assert mve`j'_y_tvc ==1 if end == mve`j'_d
-		drop n
+		forvalues m = 2/4 {
+			list patient start18 end mac`m'e`j'_d mac`m'e`j'_y mac`m'e`j'_y_tvc if patient =="B001727470", nolab
+			replace mac`m'e`j'_y_tvc = 1 if end == mac`m'e`j'_d & mac`m'e`j'_y ==1
+			*listif patient start18 end mac`m'e`j'_d mac`m'e`j'_y mac`m'e`j'_y_tvc if mac`m'e`j'_y ==1, id(patient) sort(patient start18) nolab seed(1) n(5) sepby(patient mac`m'e`j'_y_tvc)
+			assert mac`m'e`j'_y_tvc ==1 if end == mac`m'e`j'_d
+			bysort patient mac`m'e`j'_y_tvc (start18): gen n = _n
+			*listif patient start18 end mac`m'e`j'_d mac`m'e`j'_y mac`m'e`j'_y_tvc n if mac`m'e`j'_y ==1, id(patient) sort(patient start18) nolab seed(1) n(2) sepby(patient mac`m'e`j'_y_tvc)
+			*listif patient start18 end mac`m'e`j'_d mac`m'e`j'_y mac`m'e`j'_y_tvc n if mac`m'e`j'_y ==1, id(patient) sort(patient start18) nolab seed(1) n(2) sepby(patient mac`m'e`j'_y_tvc)
+			count if end != mac`m'e`j'_d & n ==1 & mac`m'e`j'_y ==1 & mac`m'e`j'_y_tvc ==1
+			* events on start18 <- set _tvc to 0
+			*listif patient start18 end mac`m'e`j'_d mac`m'e`j'_y mac`m'e`j'_y_tvc n if end != mac`m'e`j'_d & n ==1 & mac`m'e`j'_y ==1 & mac`m'e`j'_y_tvc ==1, id(patient) sort(patient start18) nolab seed(1) n(2) sepby(patient mac`m'e`j'_y_tvc)
+			replace mac`m'e`j'_y_tvc = 0 if end != mac`m'e`j'_d & n ==1 & mac`m'e`j'_y ==1 & mac`m'e`j'_y_tvc ==1
+			assert end == mac`m'e`j'_d if n ==1 & mac`m'e`j'_y_tvc ==1 
+			assert mac`m'e`j'_y_tvc ==1 if end == mac`m'e`j'_d
+			drop n
+		}
 	}
 	
 * Final cleaning 
@@ -234,7 +236,7 @@
 		drop f _st _d _t _t0 fup1_y ptsd_fup1 mve_fup1 ptsd_fup fup_y mve_fup
 				
 	* Order 
-		order patient start start18 end sex popgrp age year ptsd1_y_tvc ptsd1_d mve1_y_tvc mve1_d death_d cod2 death_y_tvc ///
+		order patient start start18 end sex popgrp age year ptsd1_y_tvc ptsd1_d mac2e1_y_tvc mac2e1_d death_d cod2 death_y_tvc ///
 			dm1_y_tvc dm1_d dl1_y_tvc dl1_d hiv1_y_tvc hiv1_d ht1_y_tvc ht1_d ///
 			org1_y_tvc org1_d su1_y_tvc su1_d psy1_y_tvc psy1_d anx1_y_tvc mood1_y_tvc mood1_d anx1_y_tvc anx1_d omd1_y_tvc omd1_d ptsd1_y_tvc ptsd1_d othanx1_y_tvc othanx1_d ///
 			age_start age_start_cat age_end age_end_cat
@@ -252,7 +254,7 @@
 		lab var anx1_y_tvc "Time-varying binary variable for anxiety disorder between start18 and end"	
 		lab var mood1_y_tvc "Time-varying binary variable for mood disorders between start18 and end"	
 		lab var ptsd1_y_tvc "Time-varying binary variable for PTSD between start18 and end"
-		lab var mve1_y_tvc "Time-varying binary variable for major vascular between start18 and end"			
+		lab var mac2e1_y_tvc "Time-varying binary variable for major vascular between start18 and end"			
 		lab var fup "Total follow-up time from start18 to end, y"
 		lab var age_end_cat "Age at end of follow-up time, categorised"
 		lab var year "Year (time-varying), categorised"
@@ -285,8 +287,13 @@
 		lab val psy1_y_tvc psy1_y_tvc			
 		lab define anx1_y_tvc 1 "Anxiety disorder", replace 
 		lab val anx1_y_tvc anx1_y_tvc	
-		lab define mve1_y_tvc 1 "Major cardiovascular event", replace 
-		lab val mve1_y_tvc mve1_y_tvc	
+		lab define mac2e1_y_tvc 1 "MACE 2", replace 
+		lab val mac2e1_y_tvc mac2e1_y_tvc	
+		lab define mac3e1_y_tvc 1 "MACE 3", replace 
+		lab val mac3e1_y_tvc mac3e1_y_tvc	
+		lab define mac4e1_y_tvc 1 "MACE 4", replace 
+		lab val mac4e1_y_tvc mac4e1_y_tvc	
+		
 		lab define othanx1_y_tvc 1 "Other anxiety disorders", replace 
 		lab val othanx1_y_tvc othanx1_y_tvc	
 		lab define sleep1_y_tvc 1 "Sleep disorders", replace 
@@ -296,7 +303,7 @@
 		
 		
 	* Labels for variables with moderate certainty 
-		foreach var in ptsd othanx org su psy mood omd mve dm dl hiv ht sleep tobacco {  
+		foreach var in ptsd othanx org su psy mood omd mac2e mac3e mac4e dm dl hiv ht sleep tobacco {  
 			lab val `var'2_y_tvc `var'1_y_tvc
 		}
 		
