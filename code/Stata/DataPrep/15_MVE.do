@@ -70,6 +70,8 @@
 		assert mve1_d ==. if mve1_y ==0
 		assertunique patient	
 		
+
+		
 * Version 2: MVE, excluding stroke mimicks (moderate certainty)
 	foreach var in mve {
 		gen `var'2_d = `var'1_d if `var'1_n >= 2 & `var'1_n !=. & `var'1_y ==1 
