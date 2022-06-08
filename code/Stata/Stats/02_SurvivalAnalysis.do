@@ -10,8 +10,8 @@
 			*sample 5 if sm1_y !=1 & ob1_y !=1
 			
 		* Stset 
-			stset end, failure(mve1_y_tvc) origin(time start18) id(patient) scale(365.25)  
-			listif patient start18 end ptsd1_d ptsd1_y_tvc mve1_y_tvc mve1_d _t0 _t _d _st sm1_y ob1_y ow1_y if mve1_y_tvc ==1 & ptsd1_d!=. & sm1_y ==1 & ob1_y ==1, sepby(patient) id(patient) sort(patient start18) n(10) nolab
+			stset end, failure(mac3e1_y_tvc) origin(time start18) id(patient) scale(365.25)  
+			listif patient start18 end ptsd1_d ptsd1_y_tvc mac3e1_y_tvc mac3e1_d _t0 _t _d _st sm1_y ob1_y ow1_y if mac3e1_y_tvc ==1 & ptsd1_d!=. & sm1_y ==1 & ob1_y ==1, sepby(patient) id(patient) sort(patient start18) n(10) nolab
 					
 		* Labels 
 			lab var age "Age, years"
