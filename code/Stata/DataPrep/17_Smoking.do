@@ -42,7 +42,7 @@
 	lab var sm2_y "Binary indicator for smoking: moderate certainty"
 	
 * Value label 
-	lab define sm1_y 1 "Smoking (ever)", replace 
+	lab define sm1_y 1 "Smoking", replace 
 	lab val sm1_y sm1_y
-	lab define sm2_y 1 "Smoking (ever)", replace 
+	lab define sm2_y 1 "Smoking", replace 
 	lab val sm2_y sm2_y
