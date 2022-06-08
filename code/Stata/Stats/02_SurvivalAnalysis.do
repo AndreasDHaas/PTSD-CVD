@@ -6,17 +6,20 @@
 			use "$clean/analyseSurv", clear	
 	
 		* Sample
-			*sample 5
+			*set seed 1
+			*sample 5 if sm1_y !=1 & ob1_y !=1
 			
 		* Stset 
 			stset end, failure(mve1_y_tvc) origin(time start18) id(patient) scale(365.25)  
-			listif patient start18 end ptsd1_d ptsd1_y_tvc mve1_y_tvc mve1_d _t0 _t _d _st if mve1_y_tvc ==1 & ptsd1_d!=., sepby(patient) id(patient) sort(patient start18) n(10) nolab
+			listif patient start18 end ptsd1_d ptsd1_y_tvc mve1_y_tvc mve1_d _t0 _t _d _st sm1_y ob1_y ow1_y if mve1_y_tvc ==1 & ptsd1_d!=. & sm1_y ==1 & ob1_y ==1, sepby(patient) id(patient) sort(patient start18) n(10) nolab
 					
 		* Labels 
 			lab var age "Age, years"
 			lab var year "Year"
 			lab var ptsd1_y_tvc "Mental disorders"
 			lab var dm1_y_tvc "Cardiovascular risk factors"
+			lab var ow1_y "Lifestyle factors"
+			lab define sm1_y 1 "Smoking", modify
 								
 		* Univariable analysis 
 			stcox i.ptsd1_y_tvc 
@@ -51,6 +54,12 @@
 			regtable popgrp, number(14) append("$temp/hrMVE") varsuffix(0) keep(var est label id number) heading		
 			stcox i.year
 			regtable year, number(15) append("$temp/hrMVE") varsuffix(0) keep(var est label id number) heading		
+			stcox i.ow1_y
+			regtable ow1_y, number(16) append("$temp/hrMVE") varsuffix(0) keep(var est label id number) dropcoef(0b.ow1_y) heading	
+			stcox i.ob1_y
+			regtable ob1_y, number(17) append("$temp/hrMVE") varsuffix(0) keep(var est label id number) dropcoef(0b.ob1_y)	
+			stcox i.sm1_y
+			regtable sm1_y, number(18) append("$temp/hrMVE") varsuffix(0) keep(var est label id number) dropcoef(0b.sm1_y)
 			
 		* Model 1: adjusted for PTSD, sociodemographic characteristics and year 
 			stcox i.ptsd1_y_tvc ib3.age ib2.sex i.year i.popgrp
@@ -74,7 +83,14 @@
 			heading number(0) merge("$temp/hrMVE") varsuffix(4) estlab("aHR (95% CI)") keep(var est label) ///
 			dropcoef(0b.ptsd1_y_tvc 0b.othanx1_y_tvc 0b.org1_y_tvc 0b.su1_y_tvc 0b.psy1_y_tvc 0b.mood1_y_tvc 0b.sleep1_y_tvc 0b.omd1_y_tvc 0b.dm1_y_tvc 0b.dl1_y_tvc 0b.ht1_y_tvc 0b.hiv1_y_tvc ///
 			h.othanx1_y_tvc h.org1_y_tvc h.su1_y_tvc h.psy1_y_tvc h.mood1_y_tvc h.sleep1_y_tvc h.omd1_y_tvc h.dm1_y_tvc h.dl1_y_tvc h.ht1_y_tvc h.hiv1_y_tvc ) sort(number0 id0)		
-				
+			
+		* Model 5: adjusted for PTSD, sociodemographic characteristics, year, psychiatric comorbidity, CVD risk factors, HIV and lifestyle factors
+			stcox i.ptsd1_y_tvc ib3.age ib2.sex i.year i.popgrp i.othanx1_y_tvc i.org1_y_tvc i.su1_y_tvc i.psy1_y_tvc i.mood1_y_tvc i.sleep1_y_tvc i.omd1_y_tvc i.dm1_y_tvc i.dl1_y_tvc i.ht1_y_tvc i.ow1_y i.ob1_y i.sm1_y i.hiv1_y_tvc  
+			regtable ptsd1_y_tvc age sex year popgrp othanx1_y_tvc org1_y_tvc su1_y_tvc psy1_y_tvc mood1_y_tvc sleep1_y_tvc omd1_y_tvc dm1_y_tvc dl1_y_tvc ht1_y_tvc hiv1_y_tvc, ///
+			heading number(0) merge("$temp/hrMVE") varsuffix(5) estlab("aHR (95% CI)") keep(var est label) ///
+			dropcoef(0b.ptsd1_y_tvc 0b.othanx1_y_tvc 0b.org1_y_tvc 0b.su1_y_tvc 0b.psy1_y_tvc 0b.mood1_y_tvc 0b.sleep1_y_tvc 0b.omd1_y_tvc 0b.dm1_y_tvc 0b.dl1_y_tvc 0b.ht1_y_tvc 0b.ow1_y 0b.ob1_y 0b.sm1_y 0b.hiv1_y_tvc ///
+			h.othanx1_y_tvc h.org1_y_tvc h.su1_y_tvc h.psy1_y_tvc h.mood1_y_tvc h.sleep1_y_tvc h.omd1_y_tvc h.dm1_y_tvc h.dl1_y_tvc h.ht1_y_tvc h.ow1_y h.ob1_y h.sm1_y h.hiv1_y_tvc ) sort(number0 id0)	
+							
 		* Export table 
 			use label est* using "$temp/hrMVE", clear 
 			list, sep(`=_N')
