@@ -23,7 +23,7 @@
 		do "$do/DataPrep/30_AnalyseSurv.do"	
 		
 * Statistical analysis
-		
+
 	* Table 1: Characteristics of beneficiaries with and without depression diagnoses at the end of follow-up
 		do "$do/Stats/01_PatientCharacteristiccs.do"			
 		
