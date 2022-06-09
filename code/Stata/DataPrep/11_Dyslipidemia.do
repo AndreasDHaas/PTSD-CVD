@@ -4,7 +4,7 @@
 	fdiag dlDiag using "$clean/ICD10_E" if regexm(icd10_code, "E78.[0-5]"), mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') n y censor(end) 
 				
 * Medication
-	fdrug dlMed using "$clean/MED_ATC_C" if regexm(med_id, "C10"), mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') n y censor(end) 
+	fdrug dlMed using "$clean/MED_ATC_C" if regexm(med_id, "^C10"), mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') n y censor(end) 
 			
 * Laboratory results 
 	

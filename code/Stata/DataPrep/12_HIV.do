@@ -6,7 +6,7 @@
 														
 * Medication									    PIs | NNRTIs | NRTIs|                   IIs    |        ARV combinations   &  NOT     TDF/FTC  |   TAF     |   FTC   |    3TC  (used in PrEP)    
 	fdrug hivMed using "$clean/MED_ATC_J" ///
-										if ((regexm(med_id, "J05A[E-G]") |  regexm(med_id, "J05AJ") |  regexm(med_id, "J05AR")) & !inlist(med_id, "J05AR03", "J05AF13", "J05AF09", "J05AF05")), /// 
+										if ((regexm(med_id, "^J05A[E-G]") |  regexm(med_id, "^J05AJ") |  regexm(med_id, "^J05AR")) & !inlist(med_id, "J05AR03", "J05AF13", "J05AF09", "J05AF05")), /// 
 										mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') n y censor(end)	
 										
 * Laboratory tests 

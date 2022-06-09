@@ -5,7 +5,7 @@
 	
 	
 * Medication:  N07BA drugs used in nicotine dependence									  
-	fdrug smMed using "$clean/MED_ATC_N" if regexm(med_id, "N07BA"), mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') n y censor(end)	
+	fdrug smMed using "$clean/MED_ATC_N" if regexm(med_id, "^N07BA"), mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') n y censor(end)	
 	
 	* Version 1: low certainty 
 			

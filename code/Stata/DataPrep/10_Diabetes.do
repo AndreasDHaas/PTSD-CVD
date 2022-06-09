@@ -6,7 +6,7 @@
 										  mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') n y censor(end)
 
 * Medications
-	fdrug dmMed using "$clean/MED_ATC_A" if regexm(med_id, "A10"), mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') n y censor(end) 
+	fdrug dmMed using "$clean/MED_ATC_A" if regexm(med_id, "^A10"), mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') n y censor(end) 
 		
 * Laboratory results 
 		

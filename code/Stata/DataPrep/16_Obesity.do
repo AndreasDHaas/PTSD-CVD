@@ -3,19 +3,16 @@
 * Diagnoses 
 	fdiag obDiag using "$clean/ICD10_E_Z" if regexm(icd10_code, "E66"), mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') n y censor(end) lab("Obesity")
 	
-	fdiag ppd using "$clean/ICD10_F" if regexm(icd10_code, "F53"), mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') n y censor(end) 
-	fdiag del using "$clean/ICD10_O" if regexm(icd10_code, "O8[0-2]"), mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') n y censor(end) 
-	
 * Medication									  
-	fdrug obMed using "$clean/MED_ATC_A" if regexm(med_id, "A08"), mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') n y censor(end)	
+	fdrug obMed using "$clean/MED_ATC_A" if regexm(med_id, "^A08"), mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') n y censor(end)	
 	
 * BMI 
 	flab obBMI using "$clean/WEIGHT_HEIGHT_BMI" if lab_id =="BMI" & lab_v >30 & lab_v !=.,  mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') n y censor(end)
 	flab ow1 using "$clean/WEIGHT_HEIGHT_BMI" if lab_id =="BMI" & inrange(lab_v, 25, 30),  mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') n y censor(end) labe("Overweight")
 	flab bmi using "$clean/WEIGHT_HEIGHT_BMI" if lab_id =="BMI",  mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') n y censor(end) label("BMI data recorded")	
 	
-* HOS 19. MODIFIERS RELATED TO PHYSICAL STATUS - 0018 BMI > 35
-	fhos obHos using "$clean/HOS" if code_type =="NRPL" & inlist(hosp_code , "0018"), y n mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end)  // https://www.sajaa.co.za/index.php/sajaa/article/download/2061/2418
+* HOS 19. MODIFIERS RELATED TO PHYSICAL STATUS - 0018 BMI > 35 https://www.sajaa.co.za/index.php/sajaa/article/download/2061/2418
+	fhos obHos using "$clean/HOS" if code_type =="NRPL" & inlist(hosp_code , "0018"), y n mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end)  // 
 
 	* Version 1: low certainty 
 			
