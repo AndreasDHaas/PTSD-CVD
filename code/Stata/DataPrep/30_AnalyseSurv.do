@@ -4,7 +4,6 @@
 	use "$clean/analyseWide", clear
 		
 * List of variables to be split at event dates 
-	// global tvc "mve1 dm1 dl1 hiv1 ht1 mhd1 org1 su1 psy1 mood1 anx1 omd1 alc1 drug1 bp1 dep1 omood1 gad1 ptsd1 ad1 oad1"
 	global tvc "mac2e1 mac3e1 mac4e1 dm1 dl1 hiv1 ht1 mhd1 org1 su1 psy1 mood1 anx1 omd1 ptsd1 othanx1 tobacco1 sleep1"
 
 * Checks 
