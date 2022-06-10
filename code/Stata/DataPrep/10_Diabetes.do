@@ -1,8 +1,8 @@
 *** Diabetes mellitus (DM)
 		
 * Diagnoses
-	fdiag dmDiag using "$clean/ICD10_DM" if regexm(icd10_code, "E1[0-4]") | regexm(icd10_code, "G59.0") | regexm(icd10_code, "G63.2") | regexm(icd10_code, "G99.0")  ///
-										  | regexm(icd10_code, "H28.0")   | regexm(icd10_code, "H36.0")   | regexm(icd10_code, "M14.2") | regexm(icd10_code, "M14.6"), ///
+	fdiag dmDiag using "$clean/ICD10_DM" if regexm(icd10_code, "^E1[0-4]") | regexm(icd10_code, "^G59.0") | regexm(icd10_code, "^G63.2") | regexm(icd10_code, "^G99.0")  ///
+										  | regexm(icd10_code, "^H28.0")   | regexm(icd10_code, "^H36.0")   | regexm(icd10_code, "^M14.2") | regexm(icd10_code, "^M14.6"), ///
 										  mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') n y censor(end)
 
 * Medications
