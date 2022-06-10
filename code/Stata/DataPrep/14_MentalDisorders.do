@@ -3,63 +3,63 @@
 * Version 1: low certainty 
 
 	* Any mental disorder 
-		fdiag mhd1 using "$clean/ICD10_F_R_Z" if regexm(icd10_code, "F") | regexm(icd10_code, "R44.[0-3]"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') ///
+		fdiag mhd1 using "$clean/ICD10_F_R_Z" if regexm(icd10_code, "^F") | regexm(icd10_code, "^R44.[0-3]"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') ///
 		label("Any mental disorder") censor(end) 
 	
 	* Top-level categories (F0-F9)
-		fdiag org1 using "$clean/ICD10_F" if regexm(icd10_code, "F0"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Organic mental disorder") censor(end)
+		fdiag org1 using "$clean/ICD10_F" if regexm(icd10_code, "^F0"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Organic mental disorder") censor(end)
 		
-		fdiag su1 using "$clean/ICD10_F_R_Z" if regexm(icd10_code, "F1[0-6]") | regexm(icd10_code, "F1[8-9]") | regexm(icd10_code, "Z50.[2-3]") | regexm(icd10_code, "Z71.[4-5]") ///
+		fdiag su1 using "$clean/ICD10_F_R_Z" if regexm(icd10_code, "^F1[0-6]") | regexm(icd10_code, "^F1[8-9]") | regexm(icd10_code, "^Z50.[2-3]") | regexm(icd10_code, "^Z71.[4-5]") ///
 		| regexm(icd10_code, "Z72.[1-2]"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Substance use disorder") censor(end) // added Z72.1-2
 		
-		fdiag psy1 using "$clean/ICD10_F_R_Z" if regexm(icd10_code, "F2") | regexm(icd10_code, "R44.[0-3]"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') ///
+		fdiag psy1 using "$clean/ICD10_F_R_Z" if regexm(icd10_code, "^F2") | regexm(icd10_code, "^R44.[0-3]"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') ///
 		label("Psychotic disorder") censor(end)
 		
-		fdiag mood1 using "$clean/ICD10_F" if regexm(icd10_code, "F3"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Mood disorder") censor(end)
+		fdiag mood1 using "$clean/ICD10_F" if regexm(icd10_code, "^F3"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Mood disorder") censor(end)
 		
-		fdiag anx1 using "$clean/ICD10_F" if regexm(icd10_code, "F4"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Anxiety disorder") censor(end)
+		fdiag anx1 using "$clean/ICD10_F" if regexm(icd10_code, "^F4"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Anxiety disorder") censor(end)
 		
-		fdiag omd1 using "$clean/ICD10_F" if regexm(icd10_code, "F[5-9]") & !regexm(icd10_code, "F51"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') ///
+		fdiag omd1 using "$clean/ICD10_F" if regexm(icd10_code, "^F[5-9]") & !regexm(icd10_code, "^F51"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') ///
 		label("Other mental disorders") censor(end)
 	
 	* Sub-categories 
 		
 		* F1
-			fdiag alc1 using "$clean/ICD10_F_R_Z" if regexm(icd10_code, "F10") | regexm(icd10_code, "Z50.2") | regexm(icd10_code, "Z71.4") | regexm(icd10_code, "Z72.1") ///
+			fdiag alc1 using "$clean/ICD10_F_R_Z" if regexm(icd10_code, "^F10") | regexm(icd10_code, "^Z50.2") | regexm(icd10_code, "^Z71.4") | regexm(icd10_code, "^Z72.1") ///
 			, n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Alcohol use disorder") censor(end) // added Z50.2 Z71.4 Z72.1
 			
-			fdiag drug1 using "$clean/ICD10_F" if regexm(icd10_code, "F1[1-6]") | regexm(icd10_code, "F1[8-9]")  | regexm(icd10_code, "Z50.3") | regexm(icd10_code, "Z71.5") ///
+			fdiag drug1 using "$clean/ICD10_F" if regexm(icd10_code, "^F1[1-6]") | regexm(icd10_code, "^F1[8-9]")  | regexm(icd10_code, "^Z50.3") | regexm(icd10_code, "^Z71.5") ///
 			| regexm(icd10_code, "Z72.2"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Drug use disorder") censor(end) // added Z50.3 Z71.5 Z72.2
 			
-			fdiag tobacco1 using "$clean/ICD10_F" if regexm(icd10_code, "F17"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Tobacco use disorder") censor(end) 
+			fdiag tobacco1 using "$clean/ICD10_F" if regexm(icd10_code, "^F17"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Tobacco use disorder") censor(end) 
 		
 		* F3
-			fdiag bp1 using "$clean/ICD10_F" if regexm(icd10_code, "F31"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Bipolar disorder") censor(end)
+			fdiag bp1 using "$clean/ICD10_F" if regexm(icd10_code, "^F31"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Bipolar disorder") censor(end)
 			
-			fdiag dep1 using "$clean/ICD10_F" if regexm(icd10_code, "F3[2-3]") | regexm(icd10_code, "F34.1"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Depression") censor(end)
+			fdiag dep1 using "$clean/ICD10_F" if regexm(icd10_code, "^F3[2-3]") | regexm(icd10_code, "^F34.1"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Depression") censor(end)
 			
-			fdiag omood1 using "$clean/ICD10_F" if regexm(icd10_code, "F3") & ( !regexm(icd10_code, "F31") & !regexm(icd10_code, "F3[2-3]") & !regexm(icd10_code, "F34.1") ) ///
+			fdiag omood1 using "$clean/ICD10_F" if regexm(icd10_code, "^F3") & ( !regexm(icd10_code, "^F31") & !regexm(icd10_code, "^F3[2-3]") & !regexm(icd10_code, "^F34.1") ) ///
 			, n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Other mood disorders") censor(end)
 			
 		* F4 
-			fdiag panic1 using "$clean/ICD10_F" if regexm(icd10_code, "F41.0"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Panic disorder") censor(end) 
-			fdiag gad1 using "$clean/ICD10_F" if regexm(icd10_code, "F41.1"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Generalised anxiety disorder") censor(end)
-			fdiag ad1 using "$clean/ICD10_F" if regexm(icd10_code, "F41.2"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Mixed anxiety and depressive disorder") censor(end) 	
-			fdiag uad1 using "$clean/ICD10_F" if regexm(icd10_code, "F41.9"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Unspecified anxiety disorder") censor(end)
-			fdiag asr1 using "$clean/ICD10_F" if regexm(icd10_code, "F43.0") | regexm(icd10_code, "F43.[8-9]"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') ///
+			fdiag panic1 using "$clean/ICD10_F" if regexm(icd10_code, "^F41.0"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Panic disorder") censor(end) 
+			fdiag gad1 using "$clean/ICD10_F" if regexm(icd10_code, "^F41.1"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Generalised anxiety disorder") censor(end)
+			fdiag ad1 using "$clean/ICD10_F" if regexm(icd10_code, "^F41.2"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Mixed anxiety and depressive disorder") censor(end) 	
+			fdiag uad1 using "$clean/ICD10_F" if regexm(icd10_code, "^F41.9"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Unspecified anxiety disorder") censor(end)
+			fdiag asr1 using "$clean/ICD10_F" if regexm(icd10_code, "^F43.0") | regexm(icd10_code, "^F43.[8-9]"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') ///
 			label("Acute or severe stress reaction") censor(end)
-			fdiag ptsd1 using "$clean/ICD10_F" if regexm(icd10_code, "F43.1"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Post-traumatic stress disorder") censor(end)
-			fdiag adj1 using "$clean/ICD10_F" if regexm(icd10_code, "F43.2"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Adjustment disorder") censor(end)
-			fdiag oad1 using "$clean/ICD10_F" if regexm(icd10_code, "F4") & (!regexm(icd10_code, "F41.[0-2]") & !regexm(icd10_code, "F41.9") & !regexm(icd10_code, "F43.[0-2]") ///
-			& !regexm(icd10_code, "F43.[8-9]")), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Other anxiety disorders") censor(end) 
-			fdiag othanx1 using "$clean/ICD10_F" if regexm(icd10_code, "F4") & (!regexm(icd10_code, "F43.1") & !regexm(icd10_code, "F41.9") ), ///
+			fdiag ptsd1 using "$clean/ICD10_F" if regexm(icd10_code, "^F43.1"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Post-traumatic stress disorder") censor(end)
+			fdiag adj1 using "$clean/ICD10_F" if regexm(icd10_code, "^F43.2"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Adjustment disorder") censor(end)
+			fdiag oad1 using "$clean/ICD10_F" if regexm(icd10_code, "^F4") & (!regexm(icd10_code, "F41.[0-2]") & !regexm(icd10_code, "^F41.9") & !regexm(icd10_code, "^F43.[0-2]") ///
+			& !regexm(icd10_code, "^F43.[8-9]")), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Other anxiety disorders") censor(end) 
+			fdiag othanx1 using "$clean/ICD10_F" if regexm(icd10_code, "^F4") & (!regexm(icd10_code, "F43.1") & !regexm(icd10_code, "^F41.9") ), ///
 			n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Other anxiety disorders") censor(end) 	
 			
 		* F5 
-			fdiag sleep1 using "$clean/ICD10_F_G" if regexm(icd10_code, "F51") | regexm(icd10_code, "G47"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') ///
+			fdiag sleep1 using "$clean/ICD10_F_G" if regexm(icd10_code, "^F51") | regexm(icd10_code, "^G47"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') ///
 			label("Sleep disorder") censor(end)
-			fdiag nos1 using "$clean/ICD10_F" if regexm(icd10_code, "F51"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Non-organic sleep disorder (F51)") censor(end)
-			fdiag sd1 using "$clean/ICD10_G" if regexm(icd10_code, "G47"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Sleep disorder (G47)") censor(end)
+			fdiag nos1 using "$clean/ICD10_F" if regexm(icd10_code, "^F51"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Non-organic sleep disorder (F51)") censor(end)
+			fdiag sd1 using "$clean/ICD10_G" if regexm(icd10_code, "^G47"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Sleep disorder (G47)") censor(end)
 			
 			
 	* Variable labels
