@@ -3,25 +3,25 @@
 * Version 1: low certainty (excluding stroke mimicks)
 				
 	* Acute myocardial infarction (I21)  
-		fdiag stemi1 using "$clean/ICD10_I" if regexm(icd10_code, "I21.[0-3]") | regexm(icd10_code, "I22") , minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end)  // STEMI
-		fdiag nstemi1 using "$clean/ICD10_I" if regexm(icd10_code, "I21.4"), minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end)  // NSTEMI
-		fdiag umi1 using "$clean/ICD10_I" if regexm(icd10_code, "I21.9"), minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end) // unsepcified MI
+		fdiag stemi1 using "$clean/ICD10_I" if regexm(icd10_code, "^I21.[0-3]") | regexm(icd10_code, "^I22") , minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end)  // STEMI
+		fdiag nstemi1 using "$clean/ICD10_I" if regexm(icd10_code, "^I21.4"), minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end)  // NSTEMI
+		fdiag umi1 using "$clean/ICD10_I" if regexm(icd10_code, "^I21.9"), minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end) // unsepcified MI
 			
 	* Strokes excluding mimicks 
-		fdiag bs1 using "$clean/ICD10_stroke" if regexm(icd10_code, "I6[0-1]"), /// bleeding stroke
+		fdiag bs1 using "$clean/ICD10_stroke" if regexm(icd10_code, "^I6[0-1]"), /// bleeding stroke
 			notif(A06.6 A17 A52.[1-3] A54.8 A81.2 B00.3 B01.0 B02.1 B37.5 B38.4 B43.1 B45.1 B45.9 B58.2 B58.9 B69.0 B90.0 G0[0-7] G09 C70-7[2] C79.3) ///	
 			minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end) listpat(B000742345)
 								
-		fdiag is1 using "$clean/ICD10_stroke" if (regexm(icd10_code, "I63") & !regexm(icd10_code, "I63.6")) | regexm(icd10_code,  "H34.1"), /// ischaemic stroke
+		fdiag is1 using "$clean/ICD10_stroke" if (regexm(icd10_code, "^I63") & !regexm(icd10_code, "^I63.6")) | regexm(icd10_code,  "^H34.1"), /// ischaemic stroke
 			notif(A06.6 A17 A52.[1-3] A54.8 A81.2 B00.3 B01.0 B02.1 B37.5 B38.4 B43.1 B45.1 B45.9 B58.2 B58.9 B69.0 B90.0 G0[0-7] G09 C70-7[2] C79.3) ///
 			minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end) listpat(B012318585) 
 													
-		fdiag us1 using "$clean/ICD10_stroke" if regexm(icd10_code, "I64"),  /// unspecified stroke
+		fdiag us1 using "$clean/ICD10_stroke" if regexm(icd10_code, "^I64"),  /// unspecified stroke
 			notif(A06.6 A17 A52.[1-3] A54.8 A81.2 B00.3 B01.0 B02.1 B37.5 B38.4 B43.1 B45.1 B45.9 B58.2 B58.9 B69.0 B90.0 G0[0-7] G09 C70-7[2] C79.3) ///
 			minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end)  listpat(B012318585) 
 			
 	* Unstable angina (I20)
-		fdiag ua1 using "$clean/ICD10_I" if icd10_code == "I20.0", minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end) 
+		fdiag ua1 using "$clean/ICD10_I" if icd10_code == "^I20.0", minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end) 
 
 	* Revascularization prcedures
 		fhos revasc1 using "$clean/HOS" if code_type =="CPT" & (inlist(hosp_code , "33503", "33504", "33511", "33512", "33513", "33514", "33516", "33517", "33518") | /// 
@@ -31,7 +31,7 @@
 										minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end)  
 										
 	* Heart failure 
-		fdiag hf1 using "$clean/ICD10_I" if regexm(icd10_code, "I11.0") | regexm(icd10_code, "I50") | regexm(icd10_code, "I97.1"), minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end)  
+		fdiag hf1 using "$clean/ICD10_I" if regexm(icd10_code, "^I11.0") | regexm(icd10_code, "^I50") | regexm(icd10_code, "^I97.1"), minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end)  
 		
 * Two-point MACE outcome: MI or stroke	
 
