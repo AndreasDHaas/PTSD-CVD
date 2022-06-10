@@ -48,15 +48,15 @@
 		*list patient start18 ptsd1_d ptsd_fup if inlist(patient, "B002178232", "B003860756", "B004373540")
 			
 	* Total person-time of patients after major vascular event, y
-		gen mve_fup = (end - mac2e1_d)/365.25
-		replace mve_fup = (end-start18)/365.25 if mac2e1_d < start18 // left-truncate at 18th birthday 
-		total mve_fup 
-		global mve_fup = e(b)[1,1]
-		di %16.2fc $mve_fup // 143,558.56
+		gen mac2e1_fup = (end - mac2e1_d)/365.25
+		replace mac2e1_fup = (end-start18)/365.25 if mac2e1_d < start18 // left-truncate at 18th birthday 
+		total mac2e1_fup 
+		global mac2e1_fup = e(b)[1,1]
+		di %16.2fc $mac2e1_fup // 143,558.56
 			
 	* Save dataset with person-time exposed and under follow-up
 		preserve 
-		keep patient fup fup_y ptsd_fup mve_fup start18 end ptsd1_d mac2e1_d
+		keep patient fup fup_y ptsd_fup mac2e1_fup start18 end ptsd1_d mac2e1_d
 		save "$temp/personTime", replace
 		restore
 			
@@ -178,13 +178,13 @@
 			restore */
 						
 	* Total person-time of patients after major vascular event, y
-		gen mve_fup1 = (end - start18)/365.25 if mac2e1_y_tvc==1
-		listif patient start18 end mac2e1_y_tvc mac2e1_d mve_fup1 if mac2e1_d !=., sepby(patient) id(patient) sort(patient start18) seed(3) n(5)
-		total mve_fup1 
-		global mve_fup1 = e(b)[1,1]
-		di %16.2fc $mve_fup // 140,267.53
-		di %16.2fc $mve_fup1 // 140,267.53
-		assert float($mve_fup) == float($mve_fup1)	
+		gen mac2e1_fup1 = (end - start18)/365.25 if mac2e1_y_tvc==1
+		listif patient start18 end mac2e1_y_tvc mac2e1_d mac2e1_fup1 if mac2e1_d !=., sepby(patient) id(patient) sort(patient start18) seed(3) n(5)
+		total mac2e1_fup1 
+		global mac2e1_fup1 = e(b)[1,1]
+		di %16.2fc $mac2e1_fup // 140,267.53
+		di %16.2fc $mac2e1_fup1 // 140,267.53
+		assert float($mac2e1_fup) == float($mac2e1_fup1)	
 		
 * Generate time-varing variables for moderate certainty 
 	foreach var in mac2e mac3e mac4e dm dl hiv ht sleep tobacco { 
@@ -209,7 +209,7 @@
 	assert death_y_tvc ==0 if death_d ==.
 	assert death_y_tvc ==1 if end == death_d
 	
-* Update time-varing variable for mve
+* Update time-varing variable for MACE
 	forvalues j = 1/2 {
 		forvalues m = 2/4 {
 			list patient start18 end mac`m'e`j'_d mac`m'e`j'_y mac`m'e`j'_y_tvc if patient =="B001727470", nolab
@@ -232,7 +232,7 @@
 * Final cleaning 
 	
 	* Clean 
-		drop f _st _d _t _t0 fup1_y ptsd_fup1 mve_fup1 ptsd_fup fup_y mve_fup
+		drop f _st _d _t _t0 fup1_y ptsd_fup1 mac2e1_fup1 ptsd_fup fup_y mac2e1_fup
 				
 	* Order 
 		order patient start start18 end sex popgrp age year ptsd1_y_tvc ptsd1_d mac2e1_y_tvc mac2e1_d death_d cod2 death_y_tvc ///
