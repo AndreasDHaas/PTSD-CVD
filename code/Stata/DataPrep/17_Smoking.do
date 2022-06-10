@@ -1,7 +1,7 @@
 *** Smoking (SM)
 			
 * Diagnoses 
-	fdiag smDiag using "$clean/ICD10_F_R_Z" if regexm(icd10_code, "F17") | regexm(icd10_code, "Z71.6") | regexm(icd10_code, "Z72.0"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end) 
+	fdiag smDiag using "$clean/ICD10_F_R_Z" if regexm(icd10_code, "^F17") | regexm(icd10_code, "^Z71.6") | regexm(icd10_code, "^Z72.0"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end) 
 	
 	
 * Medication:  N07BA drugs used in nicotine dependence									  

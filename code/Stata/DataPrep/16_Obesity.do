@@ -1,7 +1,7 @@
 *** Obesity (OB) & overweight (OW)
 			
 * Diagnoses 
-	fdiag obDiag using "$clean/ICD10_E_Z" if regexm(icd10_code, "E66"), mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') n y censor(end) lab("Obesity")
+	fdiag obDiag using "$clean/ICD10_E_Z" if regexm(icd10_code, "^E66"), mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') n y censor(end) lab("Obesity")
 	
 * Medication									  
 	fdrug obMed using "$clean/MED_ATC_A" if regexm(med_id, "^A08"), mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') n y censor(end)	
