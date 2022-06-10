@@ -1,7 +1,7 @@
 *** HIV 
 	
 * Diagnoses 
-	fdiag hivDiag using "$clean/ICD10_HIV" if regexm(icd10_code, "B2[0-4]") | regexm(icd10_code, "Z21") | regexm(icd10_code, "R75") | regexm(icd10_code, "O98.7") ///
+	fdiag hivDiag using "$clean/ICD10_HIV" if regexm(icd10_code, "^B2[0-4]") | regexm(icd10_code, "^Z21") | regexm(icd10_code, "^R75") | regexm(icd10_code, "^O98.7") ///
 											, mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') n y censor(end)
 														
 * Medication									    PIs | NNRTIs | NRTIs|                   IIs    |        ARV combinations   &  NOT     TDF/FTC  |   TAF     |   FTC   |    3TC  (used in PrEP)    
