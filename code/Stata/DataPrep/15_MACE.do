@@ -21,7 +21,7 @@
 			minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end)  listpat(B012318585) 
 			
 	* Unstable angina (I20)
-		fdiag ua1 using "$clean/ICD10_I" if icd10_code == "^I20.0", minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end) 
+		fdiag ua1 using "$clean/ICD10_I" if (icd10_code == "I20.0" & source ==3), minage(18) y n mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end)
 
 	* Revascularization prcedures
 		fhos revasc1 using "$clean/HOS" if code_type =="CPT" & (inlist(hosp_code , "33503", "33504", "33511", "33512", "33513", "33514", "33516", "33517", "33518") | /// 
