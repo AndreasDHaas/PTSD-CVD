@@ -1,13 +1,13 @@
 *** Hypertension
 		
 * Diagnoses 
-	fdiag htDiag using "$clean/ICD10_HT" if regexm(icd10_code, "H35.0") | regexm(icd10_code, "I1[0-5]") | regexm(icd10_code, "I67.4"), ///
+	fdiag htDiag using "$clean/ICD10_HT" if regexm(icd10_code, "^H35.0") | regexm(icd10_code, "^I1[0-5]") | regexm(icd10_code, "^I67.4"), ///
 											y n mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end)
 							
 * Medication 
-	fdrug htMed using "$clean/MED_ATC_C" if regexm(med_id, "C03[A-B]") | regexm(med_id, "C03EA01") | regexm(med_id, "C07[B-D]") | regexm(med_id, "C08G") | regexm(med_id, "C09BA") ///
-										| regexm(med_id, "C09DA") | regexm(med_id, "C09DX01") | regexm(med_id, "C09DX03") | regexm(med_id, "C09DX06") | regexm(med_id, "C09XA52") ///
-										| regexm(med_id, "C09XA54") | regexm(med_id, "C10BX13"), y n mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end)
+	fdrug htMed using "$clean/MED_ATC_C" if regexm(med_id, "^C03[A-B]") | regexm(med_id, "^C03EA01") | regexm(med_id, "^C07[B-D]") | regexm(med_id, "^C08G") | regexm(med_id, "^C09BA") ///
+										| regexm(med_id, "^C09DA") | regexm(med_id, "^C09DX01") | regexm(med_id, "^C09DX03") | regexm(med_id, "^C09DX06") | regexm(med_id, "^C09XA52") ///
+										| regexm(med_id, "^C09XA54") | regexm(med_id, "^C10BX13"), y n mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end)
 			
 * Clinical results
 	flab sbp using "$clean/BPS" if lab_id =="sbp" & lab_v >=140, y n mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end)
