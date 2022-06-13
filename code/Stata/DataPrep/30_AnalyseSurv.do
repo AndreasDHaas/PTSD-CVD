@@ -186,8 +186,9 @@
 		di %16.2fc $mac2e1_fup1 // 140,267.53
 		assert float($mac2e1_fup) == float($mac2e1_fup1)	
 		
+			
 * Generate time-varing variables for moderate certainty 
-	foreach var in mac2e mac3e mac4e dm dl hiv ht sleep tobacco { 
+	foreach var in mac2e mac3e mac4e ptsd othanx org su psy mood omd dm dl hiv ht sleep tobacco { 
 		gen byte `var'2_y_tvc = `var'1_y_tvc  
 		replace `var'2_y_tvc = 0 if `var'2_d ==.
 		*listif start18 end `var'1_d `var'1_y `var'1_n `var'1_y_tvc `var'2_d `var'2_y `var'2_y_tvc if `var'1_d !=. & `var'2_d ==., sepby(patient) id(patient) sort(patient start18) n(1) nolab seed(1)
