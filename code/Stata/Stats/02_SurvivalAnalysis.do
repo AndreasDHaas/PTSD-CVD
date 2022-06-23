@@ -3,24 +3,35 @@
 	* Table 2: Unadjusted and adjusted hazards ratios for factors associated with major cardiovascular events: low certainty - men & women 
 
 		* AnalyseSurv table 
+			foreach var in mac2e1_y_tvc mac3e1_y_tvc mac4e1_y_tvc {
 			use "$clean/analyseSurv", clear	
 	
 		* Sample
 			*set seed 1
 			*sample 5 if sm1_y !=1 & ob1_y !=1
-			
-		* Stset 
-			stset end, failure(mac3e1_y_tvc) origin(time start18) id(patient) scale(365.25)  
-			listif patient start18 end ptsd1_d ptsd1_y_tvc mac3e1_y_tvc mac3e1_d _t0 _t _d _st sm1_y ob1_y ow1_y if mac3e1_y_tvc ==1 & ptsd1_d!=. & sm1_y ==1 & ob1_y ==1, sepby(patient) id(patient) sort(patient start18) n(10) nolab
-					
-		* Labels 
-			lab var age "Age, years"
+				
+		* Labels
+		    lab var age "Age, years"
 			lab var year "Year"
 			lab var ptsd1_y_tvc "Mental disorders"
 			lab var dm1_y_tvc "Cardiovascular risk factors"
 			lab var ow1_y "Lifestyle factors"
 			lab define sm1_y 1 "Smoking", modify
-								
+			
+			if "`var'" == "mac2e1_y_tvc" local label "MACE 2"
+			if "`var'" == "mac3e1_y_tvc" local label "MACE 3"
+			if "`var'" == "mac4e1_y_tvc" local label "MACE 4"
+			
+			* Stset
+			stset end, failure(`var') origin(time start18) id(patient) scale(365.25)  
+			
+			
+			listif patient start18 end ptsd1_d ptsd1_y_tvc mac3e1_y_tvc mac3e1_d _t0 _t _d _st sm1_y ob1_y ow1_y if mac3e1_y_tvc ==1 & ptsd1_d!=. & sm1_y ==1 & ob1_y ==1, sepby(patient) id(patient) sort(patient start18) n(10) nolab
+			listif patient start18 end ptsd1_d ptsd1_y_tvc mac2e1_y_tvc mac2e1_d _t0 _t _d _st sm1_y ob1_y ow1_y if mac2e1_y_tvc ==1 & ptsd1_d!=. & sm1_y ==1 & ob1_y ==1, sepby(patient) id(patient) sort(patient start18) n(10) nolab
+			listif patient start18 end ptsd1_d ptsd1_y_tvc mac4e1_y_tvc mac4e1_d _t0 _t _d _st sm1_y ob1_y ow1_y if mac4e1_y_tvc ==1 & ptsd1_d!=. & sm1_y ==1 & ob1_y ==1, sepby(patient) id(patient) sort(patient start18) n(10) nolab
+					
+	
+										
 		* Univariable analysis 
 			stcox i.ptsd1_y_tvc 
 			regtable ptsd1_y_tvc, heading number(0) save("$temp/hrMACE") varsuffix(0) estlab("HR (95% CI)") keep(var est label id number) dropcoef(0b.ptsd1_y_tvc)	
@@ -76,13 +87,14 @@
 			regtable ptsd1_y_tvc age sex year popgrp, heading number(0) merge("$temp/hrMACE") varsuffix(3) estlab("aHR (95% CI)") keep(var est label) ///
 			dropcoef(0b.ptsd1_y_tvc 0b.dm1_y_tvc 0b.dl1_y_tvc 0b.ht1_y_tvc 0b.hiv1_y_tvc ///
 			h.dm1_y_tvc h.dl1_y_tvc h.ht1_y_tvc h.hiv1_y_tvc ) sort(number0 id0)		
-
+            
 		* Model 4: adjusted for PTSD, sociodemographic characteristics, year, psychiatric comorbidity, CVD risk factors and HIV 
 			stcox i.ptsd1_y_tvc ib3.age ib2.sex i.year i.popgrp i.othanx1_y_tvc i.org1_y_tvc i.su1_y_tvc i.psy1_y_tvc i.mood1_y_tvc i.sleep1_y_tvc i.omd1_y_tvc i.dm1_y_tvc i.dl1_y_tvc i.ht1_y_tvc i.hiv1_y_tvc  
 			regtable ptsd1_y_tvc age sex year popgrp othanx1_y_tvc org1_y_tvc su1_y_tvc psy1_y_tvc mood1_y_tvc sleep1_y_tvc omd1_y_tvc dm1_y_tvc dl1_y_tvc ht1_y_tvc hiv1_y_tvc, ///
 			heading number(0) merge("$temp/hrMACE") varsuffix(4) estlab("aHR (95% CI)") keep(var est label) ///
 			dropcoef(0b.ptsd1_y_tvc 0b.othanx1_y_tvc 0b.org1_y_tvc 0b.su1_y_tvc 0b.psy1_y_tvc 0b.mood1_y_tvc 0b.sleep1_y_tvc 0b.omd1_y_tvc 0b.dm1_y_tvc 0b.dl1_y_tvc 0b.ht1_y_tvc 0b.hiv1_y_tvc ///
 			h.othanx1_y_tvc h.org1_y_tvc h.su1_y_tvc h.psy1_y_tvc h.mood1_y_tvc h.sleep1_y_tvc h.omd1_y_tvc h.dm1_y_tvc h.dl1_y_tvc h.ht1_y_tvc h.hiv1_y_tvc ) sort(number0 id0)		
+			
 			
 		/* Model 5: adjusted for PTSD, sociodemographic characteristics, year, psychiatric comorbidity, CVD risk factors, HIV and lifestyle factors
 			stcox i.ptsd1_y_tvc ib3.age ib2.sex i.year i.popgrp i.othanx1_y_tvc i.org1_y_tvc i.su1_y_tvc i.psy1_y_tvc i.mood1_y_tvc i.sleep1_y_tvc i.omd1_y_tvc i.dm1_y_tvc i.dl1_y_tvc i.ht1_y_tvc i.ow1_y i.ob1_y i.sm1_y i.hiv1_y_tvc  
@@ -97,12 +109,13 @@
 			capture putdocx clear
 			putdocx begin, font("Arial", 8) landscape
 			putdocx paragraph, spacing(after, 0) 
-			putdocx text ("Table 2: Unadjusted and adjusted hazard ratios for factors associated with major vascular events"), font("Arial", 9, black) bold
+			putdocx text ("Table 2: Unadjusted and adjusted hazard ratios for factors associated with `label'"), font("Arial", 9, black) bold
 			putdocx table tbl = data(*), border(all, nil) border(top, single) border(bottom, single) layout(autofitcontent)
 			putdocx table tbl(., .), halign(right) font("Arial", 8)
 			putdocx table tbl(., 1), halign(left)
 			putdocx table tbl(1, .), halign(center) border(bottom, single) bold
-			putdocx save "$tables/Table 2.docx", replace		
+			putdocx save "$tables/Table 2_`label'.docx", replace
+			}	
 			
 	* Table 2: Unadjusted and adjusted hazards ratios for factors associated with major cardiovascular events: low certainty - men only   
 		
