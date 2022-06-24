@@ -65,12 +65,7 @@
 			regtable popgrp, number(14) append("$temp/hrMACE") varsuffix(0) keep(var est label id number) heading		
 			stcox i.year
 			regtable year, number(15) append("$temp/hrMACE") varsuffix(0) keep(var est label id number) heading		
-			stcox i.ow1_y
-			regtable ow1_y, number(16) append("$temp/hrMACE") varsuffix(0) keep(var est label id number) dropcoef(0b.ow1_y) heading	
-			stcox i.ob1_y
-			regtable ob1_y, number(17) append("$temp/hrMACE") varsuffix(0) keep(var est label id number) dropcoef(0b.ob1_y)	
-			stcox i.sm1_y
-			regtable sm1_y, number(18) append("$temp/hrMACE") varsuffix(0) keep(var est label id number) dropcoef(0b.sm1_y)
+			
 			
 		* Model 1: adjusted for PTSD, sociodemographic characteristics and year 
 			stcox i.ptsd1_y_tvc ib3.age ib2.sex i.year i.popgrp
