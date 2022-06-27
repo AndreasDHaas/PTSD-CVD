@@ -48,7 +48,7 @@
 		}
 			
 * Clean 
-	drop hivDiag_d hivDiag_n hivDiag_y hivMed_d hivMed_n hivMed_y rna_d rna_n rna_y cd4_d cd4_n cd4_y hivPos_d hivPos_n hivPos_y hiv1_n
+	drop hivDiag_d hivDiag_n hivDiag_y hivMed_d hivMed_n hivMed_y rna_d rna_n rna_y cd4_d cd4_n cd4_y hivPos_d hivPos_n hivPos_y 
 	
 * Label 
 	lab var hiv1_d "Date of first HIV indicator: low certainty"
