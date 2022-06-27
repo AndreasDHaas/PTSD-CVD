@@ -15,8 +15,7 @@
 			lab var year "Year"
 			lab var ptsd1_y_tvc "Mental disorders"
 			lab var dm1_y_tvc "Cardiovascular risk factors"
-			lab var ow1_y "Lifestyle factors"
-			lab define sm1_y 1 "Smoking", modify
+		
 			
 			if "`var'" == "mac2e1_y_tvc" local label "MACE 2"
 			if "`var'" == "mac3e1_y_tvc" local label "MACE 3"
