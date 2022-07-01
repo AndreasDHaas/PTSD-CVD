@@ -19,8 +19,8 @@
 			drop n
 		
 		* Sample
-			set seed 1
-			sample 5 if sm1_y !=1 & ob1_y !=1
+			*set seed 1
+			*sample 5 if sm1_y !=1 & ob1_y !=1
 			
 		* Stset
 			stset end, failure(ht1_y_tvc) origin(time start18) id(patient) scale(365.25)
