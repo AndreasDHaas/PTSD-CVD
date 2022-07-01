@@ -1,4 +1,4 @@
-***  Patient characteristics of by PTSD at the end of follow-up 
+***  Patient characteristics by PTSD at the end of follow-up 
 
 	* AnalyseWide table 
 		use "$clean/analyseWide", clear	

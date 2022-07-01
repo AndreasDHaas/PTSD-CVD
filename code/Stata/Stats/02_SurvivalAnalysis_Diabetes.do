@@ -8,7 +8,7 @@
 		*Update time-varing variable for diabetes
 			listif patient start18 end dm1_y dm1_y_tvc dm1_d if dm1_y_tvc==1, id(patient) sort(patient start18) n(3) seed(3) nolab
 			replace dm1_y_tvc = 1 if end == dm1_d & dm1_y ==1
-			listif patient start18 end dm1_d dm1_y dm1_y_tvc if dm1_y ==1, id(patient) sort(patient start18) nolab seed(1) n(3) sepby(dm1_y_tvc)
+			listif patient start18 end dm1_d dm1_y dm1_y_tvc if dm1_y ==1, id(patient) sort(patient start18) nolab seed(5) n(3) sepby(dm1_y_tvc)
 			assert dm1_y_tvc ==1 if end == dm1_d
 			bysort patient dm1_y_tvc (start18): gen n = _n
 			listif patient start18 end dm1_d dm1_y dm1_y_tvc n if dm1_y ==1, id(patient) sort(patient start18) nolab seed(1) n(3) sepby(patient dm1_y_tvc)
@@ -19,8 +19,8 @@
 			drop n
 		
 		* Sample
-			set seed 1
-			sample 5 if sm1_y !=1 & ob1_y !=1
+			*set seed 1
+			*sample 5 if sm1_y !=1 & ob1_y !=1
 			
 		* Stset
 			stset end, failure(dm1_y_tvc) origin(time start18) id(patient) scale(365.25)
