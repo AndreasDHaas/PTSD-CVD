@@ -4,7 +4,7 @@
 	use "$clean/analyseWide", clear
 		
 * List of variables to be split at event dates 
-	global tvc "mac2e1 mac3e1 mac4e1 dm1 dl1 hiv1 ht1 mhd1 org1 su1 psy1 mood1 anx1 omd1 ptsd1 othanx1 tobacco1 sleep1"
+	global tvc "mac2e1 mac3e1 mac4e1 dm1 dl1 hiv1 ht1 mhd1 su1 psy1 psyMed1 mdd1 anx1 ptsd1 sleep1"
 
 * Checks 
 		
@@ -30,13 +30,13 @@
 	* Total follow-up time, y
 		total fup // (end-start18)/365.25
 		global fup = e(b)[1,1]
-		di %16.0fc $fup // 4,118,256
+		di %16.0fc $fup // 4,117,037
 		gen byte f=0
 		stset end, failure(f==1) enter(start18) scale(365.25) 			
 		gen fup_y = (_t-_t0) 
 		total fup_y // estimated using stset 
 		global fup_y = e(b)[1,1]
-		di %16.2fc $fup_y // 4,118,255.65
+		di %16.2fc $fup_y // 4,117,036.54
 		assert $fup == $fup_y 
 			
 	* Total person-time of patients with PTSD, y
@@ -44,19 +44,19 @@
 		replace ptsd_fup = (end-start18)/365.25 if ptsd1_d < start18 // left-truncate at 18th birthday 
 		total ptsd_fup 
 		global ptsd_fup = e(b)[1,1]
-		di %16.2fc $ptsd_fup // 44,994.73
+		di %16.2fc $ptsd_fup // 44,954.49
 		*list patient start18 ptsd1_d ptsd_fup if inlist(patient, "B002178232", "B003860756", "B004373540")
 			
 	* Total person-time of patients after major vascular event, y
-		gen mac2e1_fup = (end - mac2e1_d)/365.25
-		replace mac2e1_fup = (end-start18)/365.25 if mac2e1_d < start18 // left-truncate at 18th birthday 
-		total mac2e1_fup 
-		global mac2e1_fup = e(b)[1,1]
-		di %16.2fc $mac2e1_fup // 143,558.56
+		gen mac3e1_fup = (end - mac3e1_d)/365.25
+		replace mac3e1_fup = (end-start18)/365.25 if mac3e1_d < start18 // left-truncate at 18th birthday 
+		total mac3e1_fup 
+		global mac3e1_fup = e(b)[1,1]
+		di %16.2fc $mac3e1_fup // 129,052.85
 			
 	* Save dataset with person-time exposed and under follow-up
 		preserve 
-		keep patient fup fup_y ptsd_fup mac2e1_fup start18 end ptsd1_d mac2e1_d
+		keep patient fup fup_y ptsd_fup mac3e1_fup start18 end ptsd1_d mac3e1_d
 		save "$temp/personTime", replace
 		restore
 			
@@ -99,6 +99,7 @@
 			
 	}
 		
+		
 * Split follow-up time by age_group 
 	
 	* Stslit ignores gaps in follow-up if option id() is specified. Use fake id identifying each observation instead
@@ -134,10 +135,10 @@
 		stset end, failure(f==1) id(fid) enter(start18) origin(time d(01/01/2011)) 
 		list patient age start18 end _t0 _t _d _st if inlist(patient, "B000000131"), sepby(pat) 
 		*stsplit year, at(365 731 1096 1461 1826 2192 2557 2922 3287 3653 4018 4383 4748 5114) // every 365 or 366 days for leap years (2012, 2016, 2020)
-		stsplit year, at(1096 2192 3287) // 2011-2013, 2014-2016, 2017-2019, and 2020-2023 // split at beginning of 2014, 2017, and 2020
+		stsplit year, at(1096 2192) // 2011-2013, 2014-2016, 2017-2019, and 2020-2023 // split at beginning of 2014, and 2017
 		* year
 		replace year = round(2011 + year/365)
-		lab define year 2011 "2011-2013" 2014 "2014-2016" 2017 "2017-2019" 2020 "2020"
+		lab define year 2011 "2011-2013" 2014 "2014-2016" 2017 "2017-2020" 
 		lab val year year
 		* update start18
 		replace start18 = d(01/01/2011) + _t0
@@ -152,8 +153,8 @@
 		gen fup1_y = (_t-_t0) 
 		total fup1_y  
 		global fup1_y = e(b)[1,1]
-		di %16.2fc $fup1_y // 4,118,255.64
-		di %16.2fc $fup_y // 4,118,255.65
+		di %16.2fc $fup1_y // 4,117,036.55
+		di %16.2fc $fup_y // 4,117,036.54
 		assert float($fup_y) == float($fup1_y)
 			
 	* Total person-time of patients with PTSD, y
@@ -178,17 +179,17 @@
 			restore */
 						
 	* Total person-time of patients after major vascular event, y
-		gen mac2e1_fup1 = (end - start18)/365.25 if mac2e1_y_tvc==1
-		listif patient start18 end mac2e1_y_tvc mac2e1_d mac2e1_fup1 if mac2e1_d !=., sepby(patient) id(patient) sort(patient start18) seed(3) n(5)
-		total mac2e1_fup1 
-		global mac2e1_fup1 = e(b)[1,1]
-		di %16.2fc $mac2e1_fup // 140,267.53
-		di %16.2fc $mac2e1_fup1 // 140,267.53
-		assert float($mac2e1_fup) == float($mac2e1_fup1)	
+		gen mac3e1_fup1 = (end - start18)/365.25 if mac3e1_y_tvc==1
+		listif patient start18 end mac3e1_y_tvc mac3e1_d mac3e1_fup1 if mac3e1_d !=., sepby(patient) id(patient) sort(patient start18) seed(3) n(5)
+		total mac3e1_fup1 
+		global mac3e1_fup1 = e(b)[1,1]
+		di %16.2fc $mac3e1_fup // 129,052.85
+		di %16.2fc $mac3e1_fup1 // 129,052.85
+		assert float($mac3e1_fup) == float($mac3e1_fup1)	
 		
 			
 * Generate time-varing variables for moderate certainty 
-	foreach var in mac2e mac3e mac4e ptsd othanx org su psy mood omd dm dl hiv ht sleep tobacco { 
+	foreach var in mac2e mac3e mac4e ptsd su psy mdd anx dm dl hiv ht sleep { 
 		gen byte `var'2_y_tvc = `var'1_y_tvc  
 		replace `var'2_y_tvc = 0 if `var'2_d ==.
 		*listif start18 end `var'1_d `var'1_y `var'1_n `var'1_y_tvc `var'2_d `var'2_y `var'2_y_tvc if `var'1_d !=. & `var'2_d ==., sepby(patient) id(patient) sort(patient start18) n(1) nolab seed(1)
@@ -233,12 +234,12 @@
 * Final cleaning 
 	
 	* Clean 
-		drop f _st _d _t _t0 fup1_y ptsd_fup1 mac2e1_fup1 ptsd_fup fup_y mac2e1_fup
+		drop f _st _d _t _t0 fup1_y ptsd_fup1 mac3e1_fup1 ptsd_fup fup_y mac3e1_fup
 				
 	* Order 
-		order patient start start18 end sex popgrp age year ptsd1_y_tvc ptsd1_d mac2e1_y_tvc mac2e1_d death_d cod2 death_y_tvc ///
+		order patient start start18 end sex popgrp age year ptsd1_y_tvc ptsd1_d mac3e1_y_tvc mac3e1_d death_d cod2 death_y_tvc ///
 			dm1_y_tvc dm1_d dl1_y_tvc dl1_d hiv1_y_tvc hiv1_d ht1_y_tvc ht1_d ///
-			org1_y_tvc org1_d su1_y_tvc su1_d psy1_y_tvc psy1_d anx1_y_tvc mood1_y_tvc mood1_d anx1_y_tvc anx1_d omd1_y_tvc omd1_d ptsd1_y_tvc ptsd1_d othanx1_y_tvc othanx1_d ///
+			su1_y_tvc su1_d psy1_y_tvc psy1_d anx1_y_tvc anx1_d mdd1_y_tvc mdd1_d ptsd1_y_tvc ptsd1_d sleep1_y_tvc sleep1_d ///
 			age_start age_start_cat age_end age_end_cat
 				
 	* Variable labels 
@@ -252,9 +253,9 @@
 		lab var su1_y_tvc "Time-varying binary variable for substance use disorder between start18 and end"	
 		lab var psy1_y_tvc "Time-varying binary variable for psychotic disorder between start18 and end"	
 		lab var anx1_y_tvc "Time-varying binary variable for anxiety disorder between start18 and end"	
-		lab var mood1_y_tvc "Time-varying binary variable for mood disorders between start18 and end"	
+		lab var mdd1_y_tvc "Time-varying binary variable for major depressive disorder between start18 and end"	
 		lab var ptsd1_y_tvc "Time-varying binary variable for PTSD between start18 and end"
-		lab var mac2e1_y_tvc "Time-varying binary variable for major vascular between start18 and end"			
+		lab var mac3e1_y_tvc "Time-varying binary variable for major vascular between start18 and end"			
 		lab var fup "Total follow-up time from start18 to end, y"
 		lab var age_end_cat "Age at end of follow-up time, categorised"
 		lab var year "Year (time-varying), categorised"
@@ -263,14 +264,8 @@
 	* Value lables
 		lab define ptsd1_y_tvc 1 "PTSD", replace 
 		lab val ptsd1_y_tvc ptsd1_y_tvc
-		lab define mood1_y_tvc 1 "Mood disorder", replace 
-		lab val mood1_y_tvc mood1_y_tvc
-		lab define org1_y_tvc 1 "Organic mental disorder", replace 
-		lab val org1_y_tvc org1_y_tvc
-		lab define omd1_y_tvc 1 "Other mental disorder", replace 
-		lab val omd1_y_tvc omd1_y_tvc
-		lab define othanx1_y_tvc 1 "Other anxiety disorder", replace 
-		lab val othanx1_y_tvc
+		lab define mdd1_y_tvc 1 "Major depressive disorder", replace 
+		lab val mdd1_y_tvc mdd1_y_tvc
 		lab define mhd1_y_tvc 1 "Mental disorder", replace 
 		lab val mhd1_y_tvc mhd1_y_tvc
 		lab define dm1_y_tvc 1 "Diabetes mellitus", replace 
@@ -292,18 +287,14 @@
 		lab define mac3e1_y_tvc 1 "MACE 3", replace 
 		lab val mac3e1_y_tvc mac3e1_y_tvc	
 		lab define mac4e1_y_tvc 1 "MACE 4", replace 
-		lab val mac4e1_y_tvc mac4e1_y_tvc	
-		
-		lab define othanx1_y_tvc 1 "Other anxiety disorders", replace 
-		lab val othanx1_y_tvc othanx1_y_tvc	
+		lab val mac4e1_y_tvc mac4e1_y_tvc		
 		lab define sleep1_y_tvc 1 "Sleep disorders", replace 
 		lab val sleep1_y_tvc sleep1_y_tvc	
-		lab define tobacco1_y_tvc 1 "Tobacco use disorders", replace 
-		lab val tobacco1_y_tvc tobacco1_y_tvc	
+	
 		
 		
 	* Labels for variables with moderate certainty 
-		foreach var in ptsd othanx org su psy mood omd mac2e mac3e mac4e dm dl hiv ht sleep tobacco {  
+		foreach var in ptsd su psy mdd mac2e mac3e mac4e dm dl hiv ht sleep {  
 			lab val `var'2_y_tvc `var'1_y_tvc
 		}
 		

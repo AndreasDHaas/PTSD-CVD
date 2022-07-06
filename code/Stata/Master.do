@@ -25,5 +25,19 @@
 * Statistical analysis
 
 	* Table 1: Characteristics of beneficiaries with and without depression diagnoses at the end of follow-up
-		do "$do/Stats/01_PatientCharacteristiccs.do"			
+		do "$do/Stats/01_PatientCharacteristics.do"		
 		
+	*Table 2: Unadjusted and adjusted hazards ratios for factors associated with major cardiovascular events (2-, 3-, and 4-point MACE): low certainty, and 3-point MACE in men & women 
+		do "$do/Stats/02_SurvivalAnalysis_MACE.do"
+	
+	* Table 4: Unadjusted and adjusted hazards ratios for factors associated with diabetes mellitus: low certainty
+		do "$do/Stats/02_SurvivalAnalysis_Diabetes.do"
+		
+	* Table 4: Unadjusted and adjusted hazards ratios for factors associated with dyslipidemia: low certainty
+		do "$do/Stats/02_SurvivalAnalysis_Dyslipidemia.do"
+		
+	* Table 4: Unadjusted and adjusted hazards ratios for factors associated with hypertension: low certainty 
+		do "$do/Stats/02_SurvivalAnalysis_Hypertension.do"
+		
+	* Table 5: Unadjusted and adjusted hazards ratios for factors associated with PTSD: low certainty 
+		do "$do/Stats/02_SurvivalAnalysis_PTSD.do"
