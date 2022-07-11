@@ -18,7 +18,9 @@
 		
 		fdiag mdd1 using "$clean/ICD10_F" if regexm(icd10_code, "^F3[2-3]"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Major depressive disorder") censor(end)
 		
-		fdiag anx1 using "$clean/ICD10_F" if regexm(icd10_code, "^F4[0-8]") & !regexm(icd10_code, "F43.1") & !regexm(icd10_code, "F40.9") & !regexm(icd10_code, "F41.9") & !regexm(icd10_code, "F42.9") & !regexm(icd10_code, "F43.9") & !regexm(icd10_code, "F44.9") & !regexm(icd10_code, "F45.9") & !regexm(icd10_code, "F48.9"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Anxiety disorder") censor(end)
+		fdiag anx1 using "$clean/ICD10_F" if regexm(icd10_code, "^F4[0-8]") & !regexm(icd10_code, "F43.1") & !regexm(icd10_code, "F40.9") & !regexm(icd10_code, "F41.9") ///
+		& !regexm(icd10_code, "F42.9") & !regexm(icd10_code, "F43.9") & !regexm(icd10_code, "F44.9") & !regexm(icd10_code, "F45.9") & !regexm(icd10_code, "F48.9"), ///
+		n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Anxiety disorder") censor(end)
 		
 		fdiag ptsd1 using "$clean/ICD10_F" if regexm(icd10_code, "^F43.1"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Post-traumatic stress disorder") censor(end)
 		
