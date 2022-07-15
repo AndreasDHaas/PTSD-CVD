@@ -22,7 +22,7 @@
 		
 		fdiag ptsd1 using "$clean/ICD10_F" if regexm(icd10_code, "^F43.1"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Post-traumatic stress disorder") censor(end)
 		
-		fdiag sleep1 using "$clean/ICD10_F_G" if regexm(icd10_code, "^F51") | regexm(icd10_code, "^G47"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') censor(end)
+		fdiag sleep1 using "$clean/ICD10_F_G" if regexm(icd10_code, "^F51") | regexm(icd10_code, "^G47"), n y mindate(`=d(01/01/2011)') maxdate(`=d(15/03/2020)') label("Sleep disorder") censor(end)
 		
 				
 			

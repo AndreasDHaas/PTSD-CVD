@@ -255,6 +255,7 @@
 		lab var anx1_y_tvc "Time-varying binary variable for anxiety disorder between start18 and end"	
 		lab var mdd1_y_tvc "Time-varying binary variable for major depressive disorder between start18 and end"	
 		lab var ptsd1_y_tvc "Time-varying binary variable for PTSD between start18 and end"
+		lab var sleep1_y_tvc "Time-varying binary variable for sleep disorder between start18 and end"
 		lab var mac3e1_y_tvc "Time-varying binary variable for major vascular between start18 and end"			
 		lab var fup "Total follow-up time from start18 to end, y"
 		lab var age_end_cat "Age at end of follow-up time, categorised"
@@ -288,7 +289,7 @@
 		lab val mac3e1_y_tvc mac3e1_y_tvc	
 		lab define mac4e1_y_tvc 1 "MACE 4", replace 
 		lab val mac4e1_y_tvc mac4e1_y_tvc		
-		lab define sleep1_y_tvc 1 "Sleep disorders", replace 
+		lab define sleep1_y_tvc 1 "Sleep disorder", replace 
 		lab val sleep1_y_tvc sleep1_y_tvc	
 	
 		
